@@ -18,11 +18,13 @@ using namespace TMC2130_n;
   CS = 26
 */
 
-uint16_t TMCStepper::cs2rms(uint8_t CS) {
+template<class T>
+uint16_t TMCStepper<T>::cs2rms(uint8_t CS) {
   return (float)(CS+1)/32.0 * (vsense() ? 0.180 : 0.325)/(Rsense+0.02) / 1.41421 * 1000;
 }
 
-void TMCStepper::rms_current(uint16_t mA) {
+template<class T>
+void TMCStepper<T>::rms_current(uint16_t mA) {
   uint8_t CS = 32.0*1.41421*mA/1000.0*(Rsense+0.02)/0.325 - 1;
   // If Current Scale is too low, turn on high sensitivity R_sense and calculate again
   if (CS < 16) {
@@ -35,16 +37,20 @@ void TMCStepper::rms_current(uint16_t mA) {
   ihold(CS*holdMultiplier);
   //val_mA = mA;
 }
-void TMCStepper::rms_current(uint16_t mA, float mult) {
+
+template<class T>
+void TMCStepper<T>::rms_current(uint16_t mA, float mult) {
   holdMultiplier = mult;
   rms_current(mA);
 }
 
-uint16_t TMCStepper::rms_current() {
+template<class T>
+uint16_t TMCStepper<T>::rms_current() {
   return cs2rms(irun());
 }
 
-uint8_t TMCStepper::test_connection() {
+template<class T>
+uint8_t TMCStepper<T>::test_connection() {
   uint32_t drv_status = DRV_STATUS();
   switch (drv_status) {
       case 0xFFFFFFFF: return 1;
@@ -53,13 +59,14 @@ uint8_t TMCStepper::test_connection() {
   }
 }
 
-void TMCStepper::hysteresis_end(int8_t value) { hend(value+3); }
-int8_t TMCStepper::hysteresis_end() { return hend()-3; };
+template<class T> void TMCStepper<T>::hysteresis_end(int8_t value) { hend(value+3); }
+template<class T> int8_t TMCStepper<T>::hysteresis_end() { return hend()-3; };
 
-void TMCStepper::hysteresis_start(uint8_t value) { hstrt(value-1); }
-uint8_t TMCStepper::hysteresis_start() { return hstrt()+1; }
+template<class T> void TMCStepper<T>::hysteresis_start(uint8_t value) { hstrt(value-1); }
+template<class T> uint8_t TMCStepper<T>::hysteresis_start() { return hstrt()+1; }
 
-void TMCStepper::microsteps(uint16_t ms) {
+template<class T>
+void TMCStepper<T>::microsteps(uint16_t ms) {
   switch(ms) {
     case 256: mres(0); break;
     case 128: mres(1); break;
@@ -74,7 +81,8 @@ void TMCStepper::microsteps(uint16_t ms) {
   }
 }
 
-uint16_t TMCStepper::microsteps() {
+template<class T>
+uint16_t TMCStepper<T>::microsteps() {
   switch(mres()) {
     case 0: return 256;
     case 1: return 128;
@@ -89,7 +97,8 @@ uint16_t TMCStepper::microsteps() {
   return 0;
 }
 
-void TMCStepper::blank_time(uint8_t value) {
+template<class T>
+void TMCStepper<T>::blank_time(uint8_t value) {
   switch (value) {
     case 16: tbl(0b00); break;
     case 24: tbl(0b01); break;
@@ -98,7 +107,8 @@ void TMCStepper::blank_time(uint8_t value) {
   }
 }
 
-uint8_t TMCStepper::blank_time() {
+template<class T>
+uint8_t TMCStepper<T>::blank_time() {
   switch (tbl()) {
     case 0b00: return 16;
     case 0b01: return 24;
@@ -109,43 +119,43 @@ uint8_t TMCStepper::blank_time() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-// R+C: GSTAT
-uint8_t TMCStepper::GSTAT()  { return read(GSTAT_t::address); }
-void  TMCStepper::GSTAT(uint8_t){ write(GSTAT_t::address, 0b111); }
-bool  TMCStepper::reset()    { GSTAT_t r; r = GSTAT(); return r.reset; }
-bool  TMCStepper::drv_err()  { GSTAT_t r; r = GSTAT(); return r.drv_err; }
-bool  TMCStepper::uv_cp()    { GSTAT_t r; r = GSTAT(); return r.uv_cp; }
+// R+C: GSTATD
+template<class T> uint8_t TMCStepper<T>::GSTAT()       { return read(GSTAT_t::address); }
+template<class T> void    TMCStepper<T>::GSTAT(uint8_t){ write(GSTAT_t::address, 0b111); }
+template<class T> bool    TMCStepper<T>::reset()       { GSTAT_t r; r = GSTAT(); return r.reset; }
+template<class T> bool    TMCStepper<T>::drv_err()     { GSTAT_t r; r = GSTAT(); return r.drv_err; }
+template<class T> bool    TMCStepper<T>::uv_cp()       { GSTAT_t r; r = GSTAT(); return r.uv_cp; }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TPOWERDOWN
-uint8_t TMCStepper::TPOWERDOWN() { return TPOWERDOWN_register.sr; }
-void TMCStepper::TPOWERDOWN(uint8_t input) {
+template<class T> uint8_t TMCStepper<T>::TPOWERDOWN() { return TPOWERDOWN_register.sr; }
+template<class T> void TMCStepper<T>::TPOWERDOWN(uint8_t input) {
   TPOWERDOWN_register = input;
   write(TPOWERDOWN_register.address, TPOWERDOWN_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // R: TSTEP
-uint32_t TMCStepper::TSTEP() { return read(TSTEP_t::address); }
+template<class T> uint32_t TMCStepper<T>::TSTEP() { return read(TSTEP_t::address); }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TPWMTHRS
-uint32_t TMCStepper::TPWMTHRS() { return TPWMTHRS_register.sr; }
-void TMCStepper::TPWMTHRS(uint32_t input) {
+template<class T> uint32_t TMCStepper<T>::TPWMTHRS() { return TPWMTHRS_register.sr; }
+template<class T> void TMCStepper<T>::TPWMTHRS(uint32_t input) {
   TPWMTHRS_register = input;
   write(TPWMTHRS_register.address, TPWMTHRS_register.sr);
 }
 
-uint16_t TMCStepper::MSCNT() {
+template<class T> uint16_t TMCStepper<T>::MSCNT() {
   return read(MSCNT_t::address);
 }
 
-uint32_t TMCStepper::MSCURACT() { return read(MSCURACT_t::address); }
-int16_t TMCStepper::cur_a() {
+template<class T> uint32_t TMCStepper<T>::MSCURACT() { return read(MSCURACT_t::address); }
+template<class T> int16_t TMCStepper<T>::cur_a() {
   MSCURACT_t r{0};
   r = MSCURACT();
   int16_t value = r.cur_a;
   if (value > 255) value -= 512;
   return value;
 }
-int16_t TMCStepper::cur_b() {
+template<class T> int16_t TMCStepper<T>::cur_b() {
   MSCURACT_t r{0};
   r = MSCURACT();
   int16_t value = r.cur_b;

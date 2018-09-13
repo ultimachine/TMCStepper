@@ -34,6 +34,7 @@
 
 #define TMCSTEPPER_VERSION 0x000405 // v0.4.5
 
+template<class T>
 class TMCStepper {
 	public:
 		uint16_t cs2rms(uint8_t CS);
@@ -101,23 +102,26 @@ class TMCStepper {
 
 		virtual void write(uint8_t, uint32_t) = 0;
 		virtual uint32_t read(uint8_t) = 0;
-		virtual void vsense(bool) = 0;
-		virtual bool vsense(void) = 0;
-		virtual uint32_t DRV_STATUS() = 0;
-		virtual void hend(uint8_t) = 0;
-		virtual uint8_t hend() = 0;
-		virtual void hstrt(uint8_t) = 0;
-		virtual uint8_t hstrt() = 0;
-		virtual void mres(uint8_t) = 0;
-		virtual uint8_t mres() = 0;
-		virtual void tbl(uint8_t) = 0;
-		virtual uint8_t tbl() = 0;
+		void vsense(bool B) { this->self().vsense(B); }
+		bool vsense(void) { return this->self().vsense(); }
+		uint32_t DRV_STATUS() { return this->self().DRV_STATUS(); }
+		void hend(uint8_t B) { this->self().hend(B); }
+		uint8_t hend() { return this->self().hend(); }
+		void hstrt(uint8_t B) { this->self().hstrt(B); }
+		uint8_t hstrt() { return this->self().hstrt(); }
+		void mres(uint8_t B) { this->self().mres(B); }
+		uint8_t mres() { return this->self().mres(); }
+		void tbl(uint8_t B) { this->self().tbl(B); }
+		uint8_t tbl() { return this->self().tbl(); }
 
 		const float Rsense;
 		float holdMultiplier = 0.5;
+
+		T& self() { return *static_cast<T*>(this); }
+		const T& self() const { return *static_cast<const T*>(this); }
 };
 
-class TMC2130Stepper : public TMCStepper {
+class TMC2130Stepper : public TMCStepper<TMC2130Stepper> {
 	public:
 		TMC2130Stepper(uint16_t pinCS, float RS = default_RS);
 		TMC2130Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
@@ -837,7 +841,7 @@ class TMC5161Stepper : public TMC5160Stepper {
 			TMC5160Stepper(pinCS, RS, pinMOSI, pinMISO, pinSCK) {}
 };
 
-class TMC2208Stepper : public TMCStepper {
+class TMC2208Stepper : public TMCStepper<TMC2208Stepper> {
 	public:
 		TMC2208Stepper(Stream * SerialPort, float RS, bool has_rx=true) :
 			TMC2208Stepper(SerialPort, RS, TMC2208_SLAVE_ADDR)
@@ -1253,3 +1257,6 @@ class TMC2660Stepper {
 		uint8_t _savedToff = 0;
 		SW_SPIClass * TMC_SW_SPI = NULL;
 };
+
+template class TMCStepper<TMC2130Stepper>;
+template class TMCStepper<TMC2208Stepper>;
