@@ -316,8 +316,8 @@ class TMC2130Stepper : public TMCStepper<TMC2130Stepper> {
 		uint8_t status_response;
 
 	protected:
-		void write(uint8_t addressByte, uint32_t config);
-		uint32_t read(uint8_t addressByte);
+		void write(uint8_t addressByte, uint32_t config) final override;
+		uint32_t read(uint8_t addressByte) final override;
 
 		TMC2130_n::GCONF_t		GCONF_register{{.sr=0}};	// 32b
 		TMC2130_n::TCOOLTHRS_t	TCOOLTHRS_register{ .sr=0};	// 32b
