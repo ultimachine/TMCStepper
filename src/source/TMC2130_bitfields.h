@@ -1,15 +1,17 @@
 #pragma once
 #pragma pack(push, 1)
 
+namespace TMC2130_n {
+
 struct GCONF_t {
   constexpr static uint8_t address = 0x00;
   union {
     uint32_t sr : 18;
     struct {
-      bool  i_scale_analog : 1, // 2130, 5130
-            internal_rsense : 1, // 2130, 5130
+      bool  i_scale_analog : 1,
+            internal_rsense : 1,
             en_pwm_mode : 1,
-            enc_commutation : 1, // 2130, 5130
+            enc_commutation : 1,
             shaft : 1,
             diag0_error : 1,
             diag0_otpw : 1,
@@ -23,17 +25,6 @@ struct GCONF_t {
             small_hysteresis : 1,
             stop_enable : 1,
             direct_mode : 1;
-    };
-    struct { // TMC5160
-      bool recalibrate : 1,
-           faststandstill : 1,
-                          : 1,
-           multistep_filt : 1,
-                    : 3,
-           diag0_step : 1,
-           diag1_dir : 1,
-                 : 4,
-           diag1_poscomp_pushpull : 1;
     };
   };
 };
@@ -87,6 +78,10 @@ struct TPOWERDOWN_t {
   uint8_t sr : 8;
 };
 
+struct TSTEP_t {
+  constexpr static uint8_t address = 0x12;
+};
+
 struct TPWMTHRS_t {
   constexpr static uint8_t address = 0x13;
   uint32_t sr : 20;
@@ -117,6 +112,94 @@ struct XDIRECT_t {
 struct VDCMIN_t {
   constexpr static uint8_t address = 0x33;
   uint32_t sr : 23;
+};
+
+struct IOINT_t {
+  constexpr static uint8_t address = 0x04;
+};
+
+struct MSLUT0_t {
+  constexpr static uint8_t address = 0x60;
+  uint32_t sr;
+};
+
+struct MSLUT1_t {
+  constexpr static uint8_t address = 0x61;
+  uint32_t sr;
+};
+
+struct MSLUT2_t {
+  constexpr static uint8_t address = 0x62;
+  uint32_t sr;
+};
+
+struct MSLUT3_t {
+  constexpr static uint8_t address = 0x63;
+  uint32_t sr;
+};
+
+struct MSLUT4_t {
+  constexpr static uint8_t address = 0x64;
+  uint32_t sr;
+};
+
+struct MSLUT5_t {
+  constexpr static uint8_t address = 0x65;
+  uint32_t sr;
+};
+
+struct MSLUT6_t {
+  constexpr static uint8_t address = 0x66;
+  uint32_t sr;
+};
+
+struct MSLUT7_t {
+  constexpr static uint8_t address = 0x67;
+  uint32_t sr;
+};
+
+struct MSLUTSEL_t {
+  constexpr static uint8_t address = 0x68;
+  union {
+    uint32_t sr;
+    struct {
+      uint8_t w0 : 2,
+              w1 : 2,
+              w2 : 2,
+              w3 : 2,
+              x1 : 8,
+              x2 : 8,
+              x3 : 8;
+    };
+  };
+};
+
+struct MSLUTSTART_t {
+  constexpr static uint8_t address = 0x69;
+  union {
+    uint32_t sr : 24;
+    struct {
+      uint8_t start_sin : 8,
+                        : 8,
+              start_sin90 : 8;
+    };
+  };
+};
+
+struct MSCNT_t {
+  constexpr static uint8_t address = 0x6A;
+};
+
+struct MSCURACT_t {
+  constexpr static uint8_t address = 0x6B;
+  union {
+    uint32_t sr : 25;
+    struct {
+      int16_t cur_a : 9,
+                    : 7,
+              cur_b : 9;
+    };
+  };
 };
 
 struct CHOPCONF_t {
@@ -182,29 +265,27 @@ struct DCCTRL_t {
 	};
 };
 
-namespace TMC2130_n {
-  struct DRV_STATUS_t {
-    constexpr static uint8_t address = 0x6F;
-    union {
-      uint32_t sr;
-      struct {
-        uint16_t sg_result : 10;
-        uint8_t            : 5;
-        bool fsactive : 1;
-        uint8_t cs_actual : 5,
-                          : 3;
-        bool  stallGuard : 1,
-              ot : 1,
-              otpw : 1,
-              s2ga : 1,
-              s2gb : 1,
-              ola : 1,
-              olb : 1,
-              stst : 1;
-      };
+struct DRV_STATUS_t {
+  constexpr static uint8_t address = 0x6F;
+  union {
+    uint32_t sr;
+    struct {
+      uint16_t sg_result : 10;
+      uint8_t            : 5;
+      bool fsactive : 1;
+      uint8_t cs_actual : 5,
+                        : 3;
+      bool  stallGuard : 1,
+            ot : 1,
+            otpw : 1,
+            s2ga : 1,
+            s2gb : 1,
+            ola : 1,
+            olb : 1,
+            stst : 1;
     };
   };
-}
+};
 
 struct PWMCONF_t {
   constexpr static uint8_t address = 0x70;
@@ -221,6 +302,10 @@ struct PWMCONF_t {
   };
 };
 
+struct PWM_SCALE_t {
+  constexpr static uint8_t address = 0x71;
+};
+
 struct ENCM_CTRL_t {
   constexpr static uint8_t address = 0x72;
   union {
@@ -231,5 +316,11 @@ struct ENCM_CTRL_t {
     };
   };
 };
+
+struct LOST_STEPS_t {
+  constexpr static uint8_t address = 0x73;
+};
+
+} // namespace
 
 #pragma pack(pop)

@@ -1,5 +1,6 @@
 #include "TMCStepper.h"
 #include "TMC_MACROS.h"
+using namespace TMC2130_n;
 
 uint32_t TMC2130Stepper::spi_speed = 16000000/8;
 

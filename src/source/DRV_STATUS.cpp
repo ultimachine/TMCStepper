@@ -3,7 +3,7 @@
 
 #define GET_REG(NS, SETTING) NS::DRV_STATUS_t r{0}; r.sr = DRV_STATUS(); return r.SETTING
 
-uint32_t TMC2130Stepper::DRV_STATUS() { return read(DRV_STATUS_t::address); }
+uint32_t TMC2130Stepper::DRV_STATUS() { return read(TMC2130_n::DRV_STATUS_t::address); }
 
 uint16_t TMC2130Stepper::sg_result(){ GET_REG(TMC2130_n, sg_result); 	}
 bool TMC2130Stepper::fsactive()		{ GET_REG(TMC2130_n, fsactive); 	}

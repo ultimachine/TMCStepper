@@ -27,7 +27,7 @@ void TMC2130Stepper::diag1_index(bool B) 			{ SET_REG(diag1_index);				}
 void TMC2130Stepper::diag1_onstate(bool B) 			{ SET_REG(diag1_onstate);			}
 void TMC2130Stepper::diag1_steps_skipped(bool B) 	{ SET_REG(diag1_steps_skipped);		}
 void TMC2130Stepper::diag0_int_pushpull(bool B) 	{ SET_REG(diag0_int_pushpull);		}
-void TMC2130Stepper::diag1_pushpull(bool B) 		{ SET_REG(diag1_poscomp_pushpull);	}
+void TMC2130Stepper::diag1_pushpull(bool B) 		{ SET_REG(diag1_pushpull);			}
 void TMC2130Stepper::small_hysteresis(bool B) 		{ SET_REG(small_hysteresis);		}
 void TMC2130Stepper::stop_enable(bool B) 			{ SET_REG(stop_enable);				}
 void TMC2130Stepper::direct_mode(bool B) 			{ SET_REG(direct_mode);				}
@@ -45,7 +45,7 @@ bool TMC2130Stepper::diag1_index() 					{ GET_REG(diag1_index);				}
 bool TMC2130Stepper::diag1_onstate() 				{ GET_REG(diag1_onstate);			}
 bool TMC2130Stepper::diag1_steps_skipped() 			{ GET_REG(diag1_steps_skipped);		}
 bool TMC2130Stepper::diag0_int_pushpull() 			{ GET_REG(diag0_int_pushpull);		}
-bool TMC2130Stepper::diag1_pushpull()		 		{ GET_REG(diag1_poscomp_pushpull);	}
+bool TMC2130Stepper::diag1_pushpull()		 		{ GET_REG(diag1_pushpull);			}
 bool TMC2130Stepper::small_hysteresis() 			{ GET_REG(small_hysteresis);		}
 bool TMC2130Stepper::stop_enable() 					{ GET_REG(stop_enable);				}
 bool TMC2130Stepper::direct_mode() 					{ GET_REG(direct_mode);				}
@@ -59,12 +59,51 @@ Enable analog test output on pin DCO. IHOLD[1..0] selects the function of DCO:
 Not for user, set to 0 for normal operation!
 */
 
+// GCONF
+uint32_t TMC5160Stepper::GCONF() {
+	GCONF_register.sr = read(GCONF_register.address);
+	return GCONF_register.sr;
+}
+void TMC5160Stepper::GCONF(uint32_t input) {
+	GCONF_register.sr = input;
+	write(GCONF_register.address, GCONF_register.sr);
+}
+
 void TMC5160Stepper::recalibrate(bool B)			{ SET_REG(recalibrate); 			}
 void TMC5160Stepper::faststandstill(bool B)			{ SET_REG(faststandstill); 			}
+void TMC5160Stepper::en_pwm_mode(bool B)			{ SET_REG(en_pwm_mode);				}
 void TMC5160Stepper::multistep_filt(bool B)			{ SET_REG(multistep_filt); 			}
+void TMC5160Stepper::shaft(bool B) 					{ SET_REG(shaft);					}
+void TMC5160Stepper::diag0_error(bool B) 			{ SET_REG(diag0_error);				}
+void TMC5160Stepper::diag0_otpw(bool B) 			{ SET_REG(diag0_otpw);				}
+void TMC5160Stepper::diag0_stall(bool B) 			{ SET_REG(diag0_stall);				}
+void TMC5160Stepper::diag1_stall(bool B) 			{ SET_REG(diag1_stall);				}
+void TMC5160Stepper::diag1_index(bool B) 			{ SET_REG(diag1_index);				}
+void TMC5160Stepper::diag1_onstate(bool B) 			{ SET_REG(diag1_onstate);			}
+void TMC5160Stepper::diag1_steps_skipped(bool B) 	{ SET_REG(diag1_steps_skipped);		}
+void TMC5160Stepper::diag0_int_pushpull(bool B) 	{ SET_REG(diag0_int_pushpull);		}
+void TMC5160Stepper::diag1_pushpull(bool B) 		{ SET_REG(diag1_poscomp_pushpull);	}
+void TMC5160Stepper::small_hysteresis(bool B) 		{ SET_REG(small_hysteresis);		}
+void TMC5160Stepper::stop_enable(bool B) 			{ SET_REG(stop_enable);				}
+void TMC5160Stepper::direct_mode(bool B) 			{ SET_REG(direct_mode);				}
+
 bool TMC5160Stepper::recalibrate()					{ GET_REG(recalibrate);				}
 bool TMC5160Stepper::faststandstill()				{ GET_REG(faststandstill);			}
+bool TMC5160Stepper::en_pwm_mode()					{ GET_REG(en_pwm_mode);				}
 bool TMC5160Stepper::multistep_filt()				{ GET_REG(multistep_filt);			}
+bool TMC5160Stepper::shaft() 						{ GET_REG(shaft);					}
+bool TMC5160Stepper::diag0_error() 					{ GET_REG(diag0_error);				}
+bool TMC5160Stepper::diag0_otpw() 					{ GET_REG(diag0_otpw);				}
+bool TMC5160Stepper::diag0_stall() 					{ GET_REG(diag0_stall);				}
+bool TMC5160Stepper::diag1_stall() 					{ GET_REG(diag1_stall);				}
+bool TMC5160Stepper::diag1_index() 					{ GET_REG(diag1_index);				}
+bool TMC5160Stepper::diag1_onstate() 				{ GET_REG(diag1_onstate);			}
+bool TMC5160Stepper::diag1_steps_skipped() 			{ GET_REG(diag1_steps_skipped);		}
+bool TMC5160Stepper::diag0_int_pushpull() 			{ GET_REG(diag0_int_pushpull);		}
+bool TMC5160Stepper::diag1_pushpull()		 		{ GET_REG(diag1_poscomp_pushpull);	}
+bool TMC5160Stepper::small_hysteresis() 			{ GET_REG(small_hysteresis);		}
+bool TMC5160Stepper::stop_enable() 					{ GET_REG(stop_enable);				}
+bool TMC5160Stepper::direct_mode() 					{ GET_REG(direct_mode);				}
 
 uint32_t TMC2208Stepper::GCONF() {
 	if (write_only) return GCONF_register.sr;

@@ -1,5 +1,6 @@
 #include "TMCStepper.h"
 #include "TMC_MACROS.h"
+using namespace TMC2208_n;
 
 // Protected
 // addr needed for TMC2209
@@ -225,17 +226,17 @@ uint32_t TMC2208Stepper::OTP_READ() {
 }
 
 uint32_t TMC2208Stepper::IOIN() {
-	return read(TMC2208_n::IOIN_t::address);
+	return read(IOIN_t::address);
 }
-bool TMC2208Stepper::enn()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.enn;		}
-bool TMC2208Stepper::ms1()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.ms1;		}
-bool TMC2208Stepper::ms2()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.ms2;		}
-bool TMC2208Stepper::diag()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.diag;		}
-bool TMC2208Stepper::pdn_uart()		{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.pdn_uart;	}
-bool TMC2208Stepper::step()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.step;		}
-bool TMC2208Stepper::sel_a()		{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.sel_a;	}
-bool TMC2208Stepper::dir()			{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.dir;		}
-uint8_t TMC2208Stepper::version() 	{ TMC2208_n::IOIN_t r{0}; r.sr = IOIN(); return r.version;	}
+bool TMC2208Stepper::enn()			{ IOIN_t r{0}; r.sr = IOIN(); return r.enn;		}
+bool TMC2208Stepper::ms1()			{ IOIN_t r{0}; r.sr = IOIN(); return r.ms1;		}
+bool TMC2208Stepper::ms2()			{ IOIN_t r{0}; r.sr = IOIN(); return r.ms2;		}
+bool TMC2208Stepper::diag()			{ IOIN_t r{0}; r.sr = IOIN(); return r.diag;		}
+bool TMC2208Stepper::pdn_uart()		{ IOIN_t r{0}; r.sr = IOIN(); return r.pdn_uart;	}
+bool TMC2208Stepper::step()			{ IOIN_t r{0}; r.sr = IOIN(); return r.step;		}
+bool TMC2208Stepper::sel_a()		{ IOIN_t r{0}; r.sr = IOIN(); return r.sel_a;	}
+bool TMC2208Stepper::dir()			{ IOIN_t r{0}; r.sr = IOIN(); return r.dir;		}
+uint8_t TMC2208Stepper::version() 	{ IOIN_t r{0}; r.sr = IOIN(); return r.version;	}
 
 uint32_t TMC2224Stepper::IOIN() {
 	return read(TMC2224_n::IOIN_t::address);
@@ -273,16 +274,16 @@ uint32_t TMC2208Stepper::VACTUAL() {
 }
 
 uint32_t TMC2208Stepper::PWM_SCALE() {
-	return read(TMC2208_n::PWM_SCALE_t::address);
+	return read(PWM_SCALE_t::address);
 }
 uint8_t TMC2208Stepper::pwm_scale_sum() {
-	TMC2208_n::PWM_SCALE_t r{0};
+	PWM_SCALE_t r{0};
 	r.sr = PWM_SCALE();
 	return r.pwm_scale_sum;
 }
 
 int16_t TMC2208Stepper::pwm_scale_auto() {
-	TMC2208_n::PWM_SCALE_t r{0};
+	PWM_SCALE_t r{0};
 	r.sr = PWM_SCALE();
 	return r.pwm_scale_auto;
 	// Not two's complement? 9nth bit determines sign

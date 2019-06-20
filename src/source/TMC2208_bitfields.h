@@ -20,9 +20,13 @@ namespace TMC2208_n {
       };
     };
   };
-}
 
-namespace TMC2208_n {
+  using TMC2130_n::GSTAT_t;
+  using TMC5130_n::IFCNT_t;
+  using TMC5130_n::SLAVECONF_t;
+  using TMC5160_n::OTP_PROG_t;
+  using TMC5160_n::OTP_READ_t;
+
   struct IOIN_t {
     constexpr static uint8_t address = 0x06;
     union {
@@ -43,62 +47,21 @@ namespace TMC2208_n {
       };
     };
   };
-}
 
-namespace TMC2224_n {
-  struct IOIN_t {
-    constexpr static uint8_t address = 0x06;
-    union {
-      uint32_t sr;
-      struct {
-        bool  : 1,
-              pdn_uart : 1,
-              spread : 1,
-              dir : 1,
-              enn : 1,
-              step : 1,
-              ms1 : 1,
-              ms2 : 1,
-              sel_a : 1;
-        uint16_t : 15;
-        uint8_t version : 8;
-      };
-    };
-  };
-}
+  using TMC5160_n::FACTORY_CONF_t;
+  using TMC2130_n::IHOLD_IRUN_t;
+  using TMC2130_n::TPOWERDOWN_t;
+  using TMC2130_n::TSTEP_t;
+  using TMC2130_n::TPWMTHRS_t;
 
-struct FACTORY_CONF_t {
-  constexpr static uint8_t address = 0x07;
-  union {
-    uint16_t sr;
-    struct {
-        uint8_t fclktrim : 5,
-                         : 3,
-                ottrim : 2;
-    };
-  };
-};
-
-namespace TMC2208_n {
   struct VACTUAL_t {
     constexpr static uint8_t address = 0x22;
     uint32_t sr;
   };
-}
 
-struct MSCURACT_t {
-  constexpr static uint8_t address = 0x6B;
-  union {
-    uint32_t sr : 25;
-    struct {
-      int16_t cur_a : 9,
-                    : 7,
-              cur_b : 9;
-    };
-  };
-};
+  using TMC2130_n::MSCNT_t;
+  using TMC2130_n::MSCURACT_t;
 
-namespace TMC2208_n {
   struct CHOPCONF_t {
     constexpr static uint8_t address = 0x6C;
     union {
@@ -116,24 +79,6 @@ namespace TMC2208_n {
                 dedge : 1,
                 diss2g : 1,
                 diss2vs : 1;
-      };
-    };
-  };
-
-  struct PWMCONF_t {
-    constexpr static uint8_t address = 0x70;
-    union {
-      uint32_t sr;
-      struct {
-        uint8_t pwm_ofs : 8,
-                pwm_grad : 8,
-                pwm_freq : 2;
-        bool pwm_autoscale : 1,
-             pwm_autograd : 1;
-        uint8_t freewheel : 2,
-                          : 2,
-                pwm_reg : 4,
-                pwm_lim : 4;
       };
     };
   };
@@ -165,17 +110,32 @@ namespace TMC2208_n {
     };
   };
 
-  struct PWM_SCALE_t {
-    constexpr static uint8_t address = 0x71;
+  using TMC2160_n::PWMCONF_t;
+  using TMC2160_n::PWM_SCALE_t;
+  using TMC2160_n::PWM_AUTO_t;
+
+};
+
+namespace TMC2224_n {
+  struct IOIN_t {
+    constexpr static uint8_t address = 0x06;
     union {
       uint32_t sr;
       struct {
-        uint8_t pwm_scale_sum : 8,
-                : 8;
-        int16_t pwm_scale_auto : 9;
+        bool  : 1,
+              pdn_uart : 1,
+              spread : 1,
+              dir : 1,
+              enn : 1,
+              step : 1,
+              ms1 : 1,
+              ms2 : 1,
+              sel_a : 1;
+        uint16_t : 15;
+        uint8_t version : 8;
       };
     };
   };
-}
+};
 
 #pragma pack(pop)

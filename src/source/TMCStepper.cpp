@@ -1,5 +1,6 @@
 #include "TMCStepper.h"
 #include "TMC_MACROS.h"
+using namespace TMC2130_n;
 
 /*
   Requested current = mA = I_rms/1000

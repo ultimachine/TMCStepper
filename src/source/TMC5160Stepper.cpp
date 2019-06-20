@@ -1,5 +1,6 @@
 #include "TMCStepper.h"
 #include "TMC_MACROS.h"
+using namespace TMC5160_n;
 
 TMC5160Stepper::TMC5160Stepper(uint16_t pinCS, float RS) : TMC5130Stepper(pinCS, RS)
   { defaults(); }
@@ -72,8 +73,22 @@ void TMC5160Stepper::push() {
     SW_MODE(SW_MODE_register.sr);
     ENCMODE(ENCMODE_register.sr);
     ENC_CONST(ENC_CONST_register.sr);
-	ENC_DEVIATION(ENC_DEVIATION_register.sr);
+    ENC_DEVIATION(ENC_DEVIATION_register.sr);
 }
+
+// R: IOIN
+uint32_t  TMC5160Stepper::IOIN() {
+  return read(IOIN_t::address);
+}
+bool    TMC5160Stepper::refl_step()      { IOIN_t r{0}; r = IOIN(); return r.refl_step; }
+bool    TMC5160Stepper::refr_dir()       { IOIN_t r{0}; r = IOIN(); return r.refr_dir; }
+bool    TMC5160Stepper::encb_dcen_cfg4() { IOIN_t r{0}; r = IOIN(); return r.encb_dcen_cfg4; }
+bool    TMC5160Stepper::enca_dcin_cfg5() { IOIN_t r{0}; r = IOIN(); return r.enca_dcin_cfg5; }
+bool    TMC5160Stepper::drv_enn()        { IOIN_t r{0}; r = IOIN(); return r.drv_enn; }
+bool    TMC5160Stepper::dco_cfg6()       { IOIN_t r{0}; r = IOIN(); return r.enc_n_dco_cfg6; }
+bool    TMC5160Stepper::sd_mode()        { IOIN_t r{0}; r = IOIN(); return r.sd_mode; }
+bool    TMC5160Stepper::swcomp_in()      { IOIN_t r{0}; r = IOIN(); return r.swcomp_in; }
+uint8_t TMC5160Stepper::version()        { IOIN_t r{0}; r = IOIN(); return r.version; }
 
 // R+WC: ENC_STATUS
 uint8_t TMC5160Stepper::ENC_STATUS() { return read(ENC_STATUS_t::address); }

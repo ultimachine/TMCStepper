@@ -2,6 +2,14 @@
 #pragma pack(push, 1)
 
 namespace TMC2209_n {
+
+  using TMC2208_n::GCONF_t;
+  using TMC2130_n::GSTAT_t;
+  using TMC5130_n::IFCNT_t;
+  using TMC5130_n::SLAVECONF_t;
+  using TMC5160_n::OTP_PROG_t;
+  using TMC5160_n::OTP_READ_t;
+
   struct IOIN_t {
     constexpr static uint8_t address = 0x06;
     union {
@@ -22,6 +30,21 @@ namespace TMC2209_n {
       };
     };
   };
+
+  using TMC5160_n::FACTORY_CONF_t;
+  using TMC2130_n::IHOLD_IRUN_t;
+  using TMC2130_n::TPOWERDOWN_t;
+  using TMC2130_n::TSTEP_t;
+  using TMC2130_n::TPWMTHRS_t;
+  using TMC2208_n::VACTUAL_t;
+  using TMC2130_n::MSCNT_t;
+  using TMC2130_n::MSCURACT_t;
+  using TMC2208_n::CHOPCONF_t;
+  using TMC2208_n::DRV_STATUS_t;
+  using TMC2160_n::PWMCONF_t;
+  using TMC2160_n::PWM_SCALE_t;
+  using TMC2160_n::PWM_AUTO_t;
+  using TMC2130_n::TCOOLTHRS_t;
 
   struct SGTHRS_t {
     constexpr static uint8_t address = 0x40;
@@ -49,6 +72,7 @@ namespace TMC2209_n {
       };
     };
   };
-}
+
+} // namespace
 
 #pragma pack(pop)

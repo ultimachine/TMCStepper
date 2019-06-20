@@ -1,6 +1,47 @@
 #pragma once
 #pragma pack(push, 1)
 
+namespace TMC5130_n {
+
+struct GCONF_t {
+  constexpr static uint8_t address = 0x00;
+  union {
+    uint32_t sr : 18;
+    struct {
+      bool  i_scale_analog : 1, // 2130, 5130
+            internal_rsense : 1, // 2130, 5130
+            en_pwm_mode : 1,
+            enc_commutation : 1, // 2130, 5130
+            shaft : 1,
+            : 2,
+            diag0_step : 1,
+            diag1_dir : 1,
+            : 3,
+            diag0_int_pushpull : 1,
+            diag1_poscomp_pushpull : 1,
+            small_hysteresis : 1,
+            stop_enable : 1,
+            direct_mode : 1;
+    };
+    struct { // SD_MODE = 1
+      bool : 5,
+           diag0_error : 1,
+           diag0_otpw : 1,
+           diag0_stall : 1,
+           diag1_stall : 1,
+           diag1_index : 1,
+           diag1_onstate : 1,
+           diag1_steps_skipped : 1;        
+    };
+  };
+};
+
+using TMC2130_n::GSTAT_t;
+
+struct IFCNT_t {
+  constexpr static uint8_t address = 0x02;
+};
+
 struct SLAVECONF_t {
   constexpr static uint8_t address = 0x03;
   union {
@@ -12,26 +53,24 @@ struct SLAVECONF_t {
   };
 };
 
-namespace TMC5130_n {
-  struct IOIN_t {
-    constexpr static uint8_t address = 0x04;
-    union {
-      uint32_t sr;
-      struct {
-        bool  refl_step : 1,
-              refr_dir : 1,
-              encb_dcen_cfg4 : 1,
-              enca_dcin_cfg5 : 1,
-              drv_enn_cfg6 : 1,
-              enc_n_dco : 1,
-              sd_mode : 1,
-              swcomp_in : 1;
-        uint16_t : 16;
-        uint8_t version : 8;
-      };
+struct IOIN_t {
+  constexpr static uint8_t address = 0x04;
+  union {
+    uint32_t sr;
+    struct {
+      bool  refl_step : 1,
+            refr_dir : 1,
+            encb_dcen_cfg4 : 1,
+            enca_dcin_cfg5 : 1,
+            drv_enn_cfg6 : 1,
+            enc_n_dco : 1,
+            sd_mode : 1,
+            swcomp_in : 1;
+      uint16_t : 16;
+      uint8_t version : 8;
     };
   };
-}
+};
 
 struct OUTPUT_t {
   constexpr static uint8_t address = 0x04;
@@ -43,6 +82,13 @@ struct X_COMPARE_t {
   uint32_t sr;
 };
 
+using TMC2130_n::IHOLD_IRUN_t;
+using TMC2130_n::TPOWERDOWN_t;
+using TMC2130_n::TSTEP_t;
+using TMC2130_n::TPWMTHRS_t;
+using TMC2130_n::TCOOLTHRS_t;
+using TMC2130_n::THIGH_t;
+
 struct RAMPMODE_t {
   constexpr static uint8_t address = 0x20;
   uint8_t sr : 2;
@@ -51,6 +97,10 @@ struct RAMPMODE_t {
 struct XACTUAL_t {
   constexpr static uint8_t address = 0x21;
   uint32_t sr;
+};
+
+struct VACTUAL_t {
+  constexpr static uint8_t address = 0x22;
 };
 
 struct VSTART_t {
@@ -98,6 +148,12 @@ struct TZEROWAIT_t {
   uint16_t sr : 16;
 };
 
+struct XTARGET_t  {
+  constexpr static uint8_t address = 0x2D;
+};
+
+using TMC2130_n::VDCMIN_t;
+
 struct SW_MODE_t {
   constexpr static uint8_t address = 0x34;
   union {
@@ -142,6 +198,10 @@ struct RAMP_STAT_t {
   };
 };
 
+struct XLATCH_t {
+  constexpr static uint8_t address = 0x36;
+};
+
 struct ENCMODE_t {
   constexpr static uint8_t address = 0x38;
   union {
@@ -162,77 +222,43 @@ struct ENCMODE_t {
   };
 };
 
+struct X_ENC_t {
+  constexpr static uint8_t address = 0x39;
+};
+
 struct ENC_CONST_t {
   constexpr static uint8_t address = 0x3A;
   int32_t sr;
 };
 
-struct MSLUT0_t {
-  constexpr static uint8_t address = 0x60;
-  uint32_t sr;
+struct ENC_STATUS_t {
+  constexpr static uint8_t address = 0x3B;
 };
 
-struct MSLUT1_t {
-  constexpr static uint8_t address = 0x61;
-  uint32_t sr;
+struct ENC_LATCH_t {
+  constexpr static uint8_t address = 0x3C;
 };
 
-struct MSLUT2_t {
-  constexpr static uint8_t address = 0x62;
-  uint32_t sr;
-};
+using TMC2130_n::MSLUT0_t;
+using TMC2130_n::MSLUT1_t;
+using TMC2130_n::MSLUT2_t;
+using TMC2130_n::MSLUT3_t;
+using TMC2130_n::MSLUT4_t;
+using TMC2130_n::MSLUT5_t;
+using TMC2130_n::MSLUT6_t;
+using TMC2130_n::MSLUT7_t;
+using TMC2130_n::MSLUTSEL_t;
+using TMC2130_n::MSLUTSTART_t;
+using TMC2130_n::MSCNT_t;
+using TMC2130_n::MSCURACT_t;
+using TMC2130_n::CHOPCONF_t;
+using TMC2130_n::COOLCONF_t;
+using TMC2130_n::DCCTRL_t;
+using TMC2130_n::DRV_STATUS_t;
+using TMC2160_n::PWMCONF_t;
+using TMC2160_n::PWM_SCALE_t;
+using TMC2130_n::ENCM_CTRL_t;
 
-struct MSLUT3_t {
-  constexpr static uint8_t address = 0x63;
-  uint32_t sr;
-};
-
-struct MSLUT4_t {
-  constexpr static uint8_t address = 0x64;
-  uint32_t sr;
-};
-
-struct MSLUT5_t {
-  constexpr static uint8_t address = 0x65;
-  uint32_t sr;
-};
-
-struct MSLUT6_t {
-  constexpr static uint8_t address = 0x66;
-  uint32_t sr;
-};
-
-struct MSLUT7_t {
-  constexpr static uint8_t address = 0x67;
-  uint32_t sr;
-};
-
-struct MSLUTSEL_t {
-  constexpr static uint8_t address = 0x68;
-  union {
-    uint32_t sr;
-    struct {
-      uint8_t w0 : 2,
-              w1 : 2,
-              w2 : 2,
-              w3 : 2,
-              x1 : 8,
-              x2 : 8,
-              x3 : 8;
-    };
-  };
-};
-
-struct MSLUTSTART_t {
-  constexpr static uint8_t address = 0x69;
-  union {
-    uint32_t sr : 24;
-    struct {
-      uint8_t start_sin : 8,
-                        : 8,
-              start_sin90 : 8;
-    };
-  };
-};
+} // namespace
 
 #pragma pack(pop)

@@ -1,6 +1,8 @@
 #pragma once
 #pragma pack(push, 1)
 
+namespace TMC2660_n {
+
 struct DRVCTRL_1_t {
   constexpr static uint8_t address = 0b00;
   union {
@@ -27,23 +29,21 @@ struct DRVCTRL_0_t {
   };
 };
 
-namespace TMC2660_n {
-  struct CHOPCONF_t {
-    constexpr static uint8_t address = 0b100;
-    union {
-      uint32_t sr;
-      struct {
-        uint8_t toff : 4;
-        uint8_t hstrt : 3;
-        uint8_t hend : 4;
-        uint8_t hdec : 2;
-        bool rndtf : 1;
-        bool chm : 1;
-        uint8_t tbl : 2;
-      };
+struct CHOPCONF_t {
+  constexpr static uint8_t address = 0b100;
+  union {
+    uint32_t sr;
+    struct {
+      uint8_t toff : 4;
+      uint8_t hstrt : 3;
+      uint8_t hend : 4;
+      uint8_t hdec : 2;
+      bool rndtf : 1;
+      bool chm : 1;
+      uint8_t tbl : 2;
     };
   };
-}
+};
 
 struct SMARTEN_t {
   constexpr static uint8_t address = 0b101;
@@ -149,5 +149,7 @@ struct READ_RDSEL10_t {
     };
   };
 };
+
+} // namespace
 
 #pragma pack(pop)

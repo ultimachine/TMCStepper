@@ -1,17 +1,18 @@
 #include "TMCStepper.h"
+using namespace TMC2209_n;
 
 uint32_t TMC2209Stepper::IOIN() {
 	return read(TMC2209_n::IOIN_t::address);
 }
-bool TMC2209Stepper::enn()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.enn;		}
-bool TMC2209Stepper::ms1()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.ms1;		}
-bool TMC2209Stepper::ms2()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.ms2;		}
-bool TMC2209Stepper::diag()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.diag;		}
-bool TMC2209Stepper::pdn_uart()		{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.pdn_uart;	}
-bool TMC2209Stepper::step()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.step;		}
-bool TMC2209Stepper::spread_en()	{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.spread_en;}
-bool TMC2209Stepper::dir()			{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.dir;		}
-uint8_t TMC2209Stepper::version() 	{ TMC2209_n::IOIN_t r{0}; r.sr = IOIN(); return r.version;	}
+bool TMC2209Stepper::enn()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.enn;		}
+bool TMC2209Stepper::ms1()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.ms1;		}
+bool TMC2209Stepper::ms2()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.ms2;		}
+bool TMC2209Stepper::diag()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.diag;		}
+bool TMC2209Stepper::pdn_uart()		{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.pdn_uart;	}
+bool TMC2209Stepper::step()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.step;		}
+bool TMC2209Stepper::spread_en()	{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.spread_en;}
+bool TMC2209Stepper::dir()			{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.dir;		}
+uint8_t TMC2209Stepper::version() 	{ TMC2209_n:IOIN_t r{0}; r.sr = IOIN(); return r.version;	}
 
 void TMC2209Stepper::push() {
 	IHOLD_IRUN(IHOLD_IRUN_register.sr);
@@ -41,5 +42,5 @@ void TMC2209Stepper::TCOOLTHRS(uint32_t input) {
 }
 
 uint16_t TMC2209Stepper::SG_RESULT() {
-	return read(TMC2209_n::SG_RESULT_t::address);
+	return read(SG_RESULT_t::address);
 }
