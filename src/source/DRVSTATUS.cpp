@@ -7,9 +7,9 @@
 
 uint32_t TMC2660Stepper::DRVSTATUS() {
 	uint32_t response = read()&0xFFCFF;
-	READ_RDSEL00_register.sr = response & 0xFF;
-	READ_RDSEL01_register.sr = response & 0xFF;
-	READ_RDSEL10_register.sr = response & 0xFF;
+	READ_RDSEL00_register = response & 0xFF;
+	READ_RDSEL01_register = response & 0xFF;
+	READ_RDSEL10_register = response & 0xFF;
 	switch(rdsel()) {
 		case 0b00: READ_RDSEL00_register.sr |= response & 0xFFC00; break;
 		case 0b01: READ_RDSEL01_register.sr |= response & 0xFFC00; break;

@@ -6,7 +6,7 @@
 
 uint32_t TMC2660Stepper::SMARTEN() { return SMARTEN_register.sr; }
 void TMC2660Stepper::SMARTEN(uint32_t data) {
-  SMARTEN_register.sr = data;
+  SMARTEN_register = data;
   write(SMARTEN_register.address, SMARTEN_register.sr);
 }
 

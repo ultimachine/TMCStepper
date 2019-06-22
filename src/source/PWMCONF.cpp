@@ -7,7 +7,7 @@
 // PWMCONF
 uint32_t TMC2130Stepper::PWMCONF() { return PWMCONF_register.sr; }
 void TMC2130Stepper::PWMCONF(uint32_t input) {
-	PWMCONF_register.sr = input;
+	PWMCONF_register = input;
 	write(PWMCONF_register.address, PWMCONF_register.sr);
 }
 
@@ -29,7 +29,7 @@ uint32_t TMC2160Stepper::PWMCONF() {
 	return PWMCONF_register.sr;
 }
 void TMC2160Stepper::PWMCONF(uint32_t input) {
-	PWMCONF_register.sr = input;
+	PWMCONF_register = input;
 	write(PWMCONF_register.address, PWMCONF_register.sr);
 }
 
@@ -53,11 +53,11 @@ uint8_t TMC2160Stepper::pwm_lim()		{ return PWMCONF_register.pwm_lim;		}
 
 uint32_t TMC2208Stepper::PWMCONF() {
 	if (write_only) return PWMCONF_register.sr;
-	PWMCONF_register.sr = read(PWMCONF_register.address);
+	PWMCONF_register = read(PWMCONF_register.address);
 	return PWMCONF_register.sr;
 }
 void TMC2208Stepper::PWMCONF(uint32_t input) {
-	PWMCONF_register.sr = input;
+	PWMCONF_register = input;
 	write(PWMCONF_register.address, PWMCONF_register.sr);
 }
 

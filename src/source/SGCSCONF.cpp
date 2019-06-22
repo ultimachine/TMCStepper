@@ -6,7 +6,7 @@
 
 uint32_t TMC2660Stepper::SGCSCONF() { return SGCSCONF_register.sr; }
 void TMC2660Stepper::SGCSCONF(uint32_t data) {
-  SGCSCONF_register.sr = data;
+  SGCSCONF_register = data;
   write(SGCSCONF_register.address, SGCSCONF_register.sr);
 }
 

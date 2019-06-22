@@ -12,10 +12,10 @@ uint32_t TMC2660Stepper::DRVCTRL() {
 }
 void TMC2660Stepper::DRVCTRL(uint32_t data) {
 	if(sdoff() == 1) {
-		DRVCTRL_1_register.sr = data;
+		DRVCTRL_1_register = data;
 		write(DRVCTRL_1_register.address, DRVCTRL_1_register.sr);
 	} else {
-		DRVCTRL_0_register.sr = data;
+		DRVCTRL_0_register = data;
 		write(DRVCTRL_0_register.address, DRVCTRL_0_register.sr);
 	}
 }

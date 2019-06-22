@@ -6,7 +6,7 @@
 
 uint32_t TMC2160Stepper::SHORT_CONF() { return SHORT_CONF_register.sr; }
 void TMC2160Stepper::SHORT_CONF(uint32_t input) {
-	SHORT_CONF_register.sr = input;
+	SHORT_CONF_register = input;
 	write(SHORT_CONF_register.address, SHORT_CONF_register.sr);
 }
 

@@ -6,7 +6,7 @@
 
 uint32_t TMC2660Stepper::DRVCONF() { return DRVCONF_register.sr; }
 void TMC2660Stepper::DRVCONF(uint32_t data) {
-  DRVCONF_register.sr = data;
+  DRVCONF_register = data;
   write(DRVCONF_register.address, DRVCONF_register.sr);
 }
 

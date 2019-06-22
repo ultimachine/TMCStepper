@@ -12,7 +12,7 @@ TMC5160Stepper::TMC5160Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMIS
   { defaults(); }
 
 void TMC5160Stepper::defaults() {
-  PWMCONF_register.sr = 0x00050480;
+  PWMCONF_register = 0x00050480;
   SHORT_CONF_register.s2vs_level = 6;
   SHORT_CONF_register.s2g_level = 6;
   SHORT_CONF_register.shortfilter = 0b01;
@@ -22,22 +22,22 @@ void TMC5160Stepper::defaults() {
   DRV_CONF_register.otselect = 0b00;
   DRV_CONF_register.drvstrength = 0b10;
   DRV_CONF_register.filt_isense = 0b00;
-  TPOWERDOWN_register.sr = 10;
-  VSTOP_register.sr = 1;
-  ENC_CONST_register.sr = 65536;
-  //MSLUT0_register.sr = ???;
-  //MSLUT1_register.sr = ???;
-  //MSLUT2_register.sr = ???;
-  //MSLUT3_register.sr = ???;
-  //MSLUT4_register.sr = ???;
-  //MSLUT5_register.sr = ???;
-  //MSLUT6_register.sr = ???;
-  //MSLUT7_register.sr = ???;
-  //MSLUTSEL_register.sr = ???;
+  TPOWERDOWN_register = 10;
+  VSTOP_register = 1;
+  ENC_CONST_register = 65536;
+  //MSLUT0_register = ???;
+  //MSLUT1_register = ???;
+  //MSLUT2_register = ???;
+  //MSLUT3_register = ???;
+  //MSLUT4_register = ???;
+  //MSLUT5_register = ???;
+  //MSLUT6_register = ???;
+  //MSLUT7_register = ???;
+  //MSLUTSEL_register = ???;
   //MSLUTSTART_register.start_sin = 0;
   //MSLUTSTART_register.start_sin90 = 247;
-  CHOPCONF_register.sr = 0x10410150;
-  PWMCONF_register.sr = 0xC40C001E;
+  CHOPCONF_register = 0x10410150;
+  PWMCONF_register = 0xC40C001E;
 }
 
 void TMC5160Stepper::push() {
@@ -99,7 +99,7 @@ void TMC5160Stepper::ENC_STATUS(uint8_t input) {
 // W: ENC_DEVIATION
 uint32_t TMC5160Stepper::ENC_DEVIATION() { return ENC_DEVIATION_register.sr; }
 void TMC5160Stepper::ENC_DEVIATION(uint32_t input) {
-	ENC_DEVIATION_register.sr = input;
+	ENC_DEVIATION_register = input;
 	write(ENC_DEVIATION_register.address, ENC_DEVIATION_register.sr);
 }
 
@@ -107,5 +107,5 @@ void TMC5160Stepper::ENC_DEVIATION(uint32_t input) {
 uint32_t TMC5160Stepper::PWM_AUTO() {
 	return read(PWM_AUTO_t::address);
 }
-uint8_t TMC5160Stepper::pwm_ofs_auto()  { PWM_AUTO_t r{0}; r.sr = PWM_AUTO(); return r.pwm_ofs_auto; }
-uint8_t TMC5160Stepper::pwm_grad_auto() { PWM_AUTO_t r{0}; r.sr = PWM_AUTO(); return r.pwm_grad_auto; }
+uint8_t TMC5160Stepper::pwm_ofs_auto()  { PWM_AUTO_t r{0}; r = PWM_AUTO(); return r.pwm_ofs_auto; }
+uint8_t TMC5160Stepper::pwm_grad_auto() { PWM_AUTO_t r{0}; r = PWM_AUTO(); return r.pwm_grad_auto; }

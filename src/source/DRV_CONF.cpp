@@ -7,7 +7,7 @@
 // W: DRV_CONF
 uint32_t TMC2160Stepper::DRV_CONF() { return DRV_CONF_register.sr; }
 void TMC2160Stepper::DRV_CONF(uint32_t input) {
-	DRV_CONF_register.sr = input;
+	DRV_CONF_register = input;
 	write(DRV_CONF_register.address, DRV_CONF_register.sr);
 }
 

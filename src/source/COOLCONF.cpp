@@ -7,7 +7,7 @@
 // COOLCONF
 uint32_t TMC2130Stepper::COOLCONF() { return COOLCONF_register.sr; }
 void TMC2130Stepper::COOLCONF(uint32_t input) {
-	COOLCONF_register.sr = input;
+	COOLCONF_register = input;
 	write(COOLCONF_register.address, COOLCONF_register.sr);
 }
 
@@ -35,7 +35,7 @@ int8_t TMC2130Stepper::sgt() {
 
 uint16_t TMC2209Stepper::COOLCONF() { return COOLCONF_register.sr; }
 void TMC2209Stepper::COOLCONF(uint16_t input) {
-	COOLCONF_register.sr = input;
+	COOLCONF_register = input;
 	write(COOLCONF_register.address, COOLCONF_register.sr);
 }
 

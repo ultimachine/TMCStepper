@@ -1,7 +1,7 @@
 #include "TMCStepper.h"
 #include "TMC_MACROS.h"
 
-#define GET_REG(NS, SETTING) NS::DRV_STATUS_t r{0}; r.sr = DRV_STATUS(); return r.SETTING
+#define GET_REG(NS, SETTING) NS::DRV_STATUS_t r{0}; r = DRV_STATUS(); return r.SETTING
 
 uint32_t TMC2130Stepper::DRV_STATUS() { return read(TMC2130_n::DRV_STATUS_t::address); }
 

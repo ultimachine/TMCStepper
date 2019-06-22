@@ -6,11 +6,11 @@
 
 // GCONF
 uint32_t TMC2130Stepper::GCONF() {
-	GCONF_register.sr = read(GCONF_register.address);
+	GCONF_register = read(GCONF_register.address);
 	return GCONF_register.sr;
 }
 void TMC2130Stepper::GCONF(uint32_t input) {
-	GCONF_register.sr = input;
+	GCONF_register = input;
 	write(GCONF_register.address, GCONF_register.sr);
 }
 
@@ -61,11 +61,11 @@ Not for user, set to 0 for normal operation!
 
 // GCONF
 uint32_t TMC5160Stepper::GCONF() {
-	GCONF_register.sr = read(GCONF_register.address);
+	GCONF_register = read(GCONF_register.address);
 	return GCONF_register.sr;
 }
 void TMC5160Stepper::GCONF(uint32_t input) {
-	GCONF_register.sr = input;
+	GCONF_register = input;
 	write(GCONF_register.address, GCONF_register.sr);
 }
 
@@ -107,11 +107,11 @@ bool TMC5160Stepper::direct_mode() 					{ GET_REG(direct_mode);				}
 
 uint32_t TMC2208Stepper::GCONF() {
 	if (write_only) return GCONF_register.sr;
-	GCONF_register.sr = read(GCONF_register.address);
+	GCONF_register = read(GCONF_register.address);
 	return GCONF_register.sr;
 }
 void TMC2208Stepper::GCONF(uint32_t input) {
-	GCONF_register.sr = input;
+	GCONF_register = input;
 	write(GCONF_register.address, GCONF_register.sr);
 }
 

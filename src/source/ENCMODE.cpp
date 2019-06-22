@@ -6,11 +6,11 @@
 
 // ENCMODE
 uint32_t TMC5130Stepper::ENCMODE() {
-	ENCMODE_register.sr = read(ENCMODE_register.address);
+	ENCMODE_register = read(ENCMODE_register.address);
 	return ENCMODE_register.sr;
 }
 void TMC5130Stepper::ENCMODE(uint32_t input) {
-	ENCMODE_register.sr = input;
+	ENCMODE_register = input;
 	write(ENCMODE_register.address, ENCMODE_register.sr);
 }
 

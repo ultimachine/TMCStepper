@@ -6,11 +6,11 @@
 
 // SW_MODE
 uint32_t TMC5130Stepper::SW_MODE() {
-	SW_MODE_register.sr = read(SW_MODE_register.address);
+	SW_MODE_register = read(SW_MODE_register.address);
 	return SW_MODE_register.sr;
 }
 void TMC5130Stepper::SW_MODE(uint32_t input) {
-	SW_MODE_register.sr = input;
+	SW_MODE_register = input;
 	write(SW_MODE_register.address, SW_MODE_register.sr);
 }
 

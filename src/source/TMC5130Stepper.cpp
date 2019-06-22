@@ -20,20 +20,20 @@ void TMC5130Stepper::begin() {
 }
 
 void TMC5130Stepper::defaults() {
-  OUTPUT_register.sr = 1;
-  ENC_CONST_register.sr = 65536;
-  //MSLUT0_register.sr = ???;
-  //MSLUT1_register.sr = ???;
-  //MSLUT2_register.sr = ???;
-  //MSLUT3_register.sr = ???;
-  //MSLUT4_register.sr = ???;
-  //MSLUT5_register.sr = ???;
-  //MSLUT6_register.sr = ???;
-  //MSLUT7_register.sr = ???;
-  //MSLUTSEL_register.sr = ???;
+  OUTPUT_register = 1;
+  ENC_CONST_register = 65536;
+  //MSLUT0_register = ???;
+  //MSLUT1_register = ???;
+  //MSLUT2_register = ???;
+  //MSLUT3_register = ???;
+  //MSLUT4_register = ???;
+  //MSLUT5_register = ???;
+  //MSLUT6_register = ???;
+  //MSLUT7_register = ???;
+  //MSLUTSEL_register = ???;
   //MSLUTSTART_register.start_sin = 0;
   //MSLUTSTART_register.start_sin90 = 247;
-  PWMCONF_register.sr = 0x00050480;
+  PWMCONF_register = 0x00050480;
 }
 
 void TMC5130Stepper::push() {
@@ -76,7 +76,7 @@ uint8_t TMC5130Stepper::IFCNT() { return read(IFCNT_t::address); }
 // W: SLAVECONF
 uint16_t TMC5130Stepper::SLAVECONF() { return SLAVECONF_register.sr; }
 void TMC5130Stepper::SLAVECONF(uint16_t input) {
-  SLAVECONF_register.sr = input;
+  SLAVECONF_register = input;
   write(SLAVECONF_register.address, SLAVECONF_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -84,34 +84,34 @@ void TMC5130Stepper::SLAVECONF(uint16_t input) {
 uint32_t  TMC5130Stepper::IOIN() {
   return read(IOIN_t::address);
 }
-bool    TMC5130Stepper::refl_step()      { IOIN_t r{0}; r.sr = IOIN(); return r.refl_step; }
-bool    TMC5130Stepper::refr_dir()       { IOIN_t r{0}; r.sr = IOIN(); return r.refr_dir; }
-bool    TMC5130Stepper::encb_dcen_cfg4() { IOIN_t r{0}; r.sr = IOIN(); return r.encb_dcen_cfg4; }
-bool    TMC5130Stepper::enca_dcin_cfg5() { IOIN_t r{0}; r.sr = IOIN(); return r.enca_dcin_cfg5; }
-bool    TMC5130Stepper::drv_enn_cfg6()   { IOIN_t r{0}; r.sr = IOIN(); return r.drv_enn_cfg6; }
-bool    TMC5130Stepper::enc_n_dco()      { IOIN_t r{0}; r.sr = IOIN(); return r.enc_n_dco; }
-bool    TMC5130Stepper::sd_mode()        { IOIN_t r{0}; r.sr = IOIN(); return r.sd_mode; }
-bool    TMC5130Stepper::swcomp_in()      { IOIN_t r{0}; r.sr = IOIN(); return r.swcomp_in; }
-uint8_t   TMC5130Stepper::version()      { IOIN_t r{0}; r.sr = IOIN(); return r.version; }
+bool    TMC5130Stepper::refl_step()      { IOIN_t r{0}; r = IOIN(); return r.refl_step; }
+bool    TMC5130Stepper::refr_dir()       { IOIN_t r{0}; r = IOIN(); return r.refr_dir; }
+bool    TMC5130Stepper::encb_dcen_cfg4() { IOIN_t r{0}; r = IOIN(); return r.encb_dcen_cfg4; }
+bool    TMC5130Stepper::enca_dcin_cfg5() { IOIN_t r{0}; r = IOIN(); return r.enca_dcin_cfg5; }
+bool    TMC5130Stepper::drv_enn_cfg6()   { IOIN_t r{0}; r = IOIN(); return r.drv_enn_cfg6; }
+bool    TMC5130Stepper::enc_n_dco()      { IOIN_t r{0}; r = IOIN(); return r.enc_n_dco; }
+bool    TMC5130Stepper::sd_mode()        { IOIN_t r{0}; r = IOIN(); return r.sd_mode; }
+bool    TMC5130Stepper::swcomp_in()      { IOIN_t r{0}; r = IOIN(); return r.swcomp_in; }
+uint8_t   TMC5130Stepper::version()      { IOIN_t r{0}; r = IOIN(); return r.version; }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: OUTPUT
 bool TMC5130Stepper::TMC_OUTPUT() { return OUTPUT_register.sr; }
 void TMC5130Stepper::TMC_OUTPUT(bool input) {
-  OUTPUT_register.sr = input;
+  OUTPUT_register = input;
   write(OUTPUT_register.address, OUTPUT_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: X_COMPARE
 uint32_t TMC5130Stepper::X_COMPARE() { return X_COMPARE_register.sr; }
 void TMC5130Stepper::X_COMPARE(uint32_t input) {
-  X_COMPARE_register.sr = input;
+  X_COMPARE_register = input;
   write(X_COMPARE_register.address, X_COMPARE_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // RW: RAMPMODE
 uint8_t TMC5130Stepper::RAMPMODE() { return read(RAMPMODE_register.address); }
 void TMC5130Stepper::RAMPMODE(uint8_t input) {
-  RAMPMODE_register.sr = input;
+  RAMPMODE_register = input;
   write(RAMPMODE_register.address, RAMPMODE_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -133,49 +133,49 @@ int32_t TMC5130Stepper::VACTUAL() {
 // W: VSTART
 uint32_t TMC5130Stepper::VSTART() { return VSTART_register.sr; }
 void TMC5130Stepper::VSTART(uint32_t input) {
-  VSTART_register.sr = input;
+  VSTART_register = input;
   write(VSTART_register.address, VSTART_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: A1
 uint16_t TMC5130Stepper::A1() { return A1_register.sr; }
 void TMC5130Stepper::A1(uint16_t input) {
-  A1_register.sr = input;
+  A1_register = input;
   write(A1_register.address, A1_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: V1
 uint32_t TMC5130Stepper::V1() { return V1_register.sr; }
 void TMC5130Stepper::V1(uint32_t input) {
-  V1_register.sr = input;
+  V1_register = input;
   write(V1_register.address, V1_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: AMAX
 uint16_t TMC5130Stepper::AMAX() { return AMAX_register.sr; }
 void TMC5130Stepper::AMAX(uint16_t input) {
-  AMAX_register.sr = input;
+  AMAX_register = input;
   write(AMAX_register.address, AMAX_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: VMAX
 uint32_t TMC5130Stepper::VMAX() { return VMAX_register.sr; }
 void TMC5130Stepper::VMAX(uint32_t input) {
-  VMAX_register.sr = input;
+  VMAX_register = input;
   write(VMAX_register.address, VMAX_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: DMAX
 uint16_t TMC5130Stepper::DMAX() { return DMAX_register.sr; }
 void TMC5130Stepper::DMAX(uint16_t input) {
-  DMAX_register.sr = input;
+  DMAX_register = input;
   write(DMAX_register.address, DMAX_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: D1
 uint16_t TMC5130Stepper::D1() { return D1_register.sr; }
 void TMC5130Stepper::D1(uint16_t input) {
-  D1_register.sr = input;
+  D1_register = input;
   write(D1_register.address, D1_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -183,14 +183,14 @@ void TMC5130Stepper::D1(uint16_t input) {
 uint32_t TMC5130Stepper::VSTOP() { return VSTOP_register.sr; }
 void TMC5130Stepper::VSTOP(uint32_t input) {
   if (input == 0 && RAMPMODE() == 0) return;
-  VSTOP_register.sr = input;
+  VSTOP_register = input;
   write(VSTOP_register.address, VSTOP_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TZEROWAIT
 uint16_t TMC5130Stepper::TZEROWAIT() { return TZEROWAIT_register.sr; }
 void TMC5130Stepper::TZEROWAIT(uint16_t input) {
-  TZEROWAIT_register.sr = input;
+  TZEROWAIT_register = input;
   write(TZEROWAIT_register.address, TZEROWAIT_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +212,7 @@ void TMC5130Stepper::X_ENC(int32_t input) {
 // W: ENC_CONST
 uint16_t TMC5130Stepper::ENC_CONST() { return ENC_CONST_register.sr; }
 void TMC5130Stepper::ENC_CONST(uint16_t input) {
-  ENC_CONST_register.sr = input;
+  ENC_CONST_register = input;
   write(ENC_CONST_register.address, ENC_CONST_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////

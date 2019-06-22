@@ -112,14 +112,14 @@ uint8_t TMCStepper::blank_time() {
 // R+C: GSTAT
 uint8_t TMCStepper::GSTAT()  { return read(GSTAT_t::address); }
 void  TMCStepper::GSTAT(uint8_t){ write(GSTAT_t::address, 0b111); }
-bool  TMCStepper::reset()    { GSTAT_t r; r.sr = GSTAT(); return r.reset; }
-bool  TMCStepper::drv_err()  { GSTAT_t r; r.sr = GSTAT(); return r.drv_err; }
-bool  TMCStepper::uv_cp()    { GSTAT_t r; r.sr = GSTAT(); return r.uv_cp; }
+bool  TMCStepper::reset()    { GSTAT_t r; r = GSTAT(); return r.reset; }
+bool  TMCStepper::drv_err()  { GSTAT_t r; r = GSTAT(); return r.drv_err; }
+bool  TMCStepper::uv_cp()    { GSTAT_t r; r = GSTAT(); return r.uv_cp; }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TPOWERDOWN
 uint8_t TMCStepper::TPOWERDOWN() { return TPOWERDOWN_register.sr; }
 void TMCStepper::TPOWERDOWN(uint8_t input) {
-  TPOWERDOWN_register.sr = input;
+  TPOWERDOWN_register = input;
   write(TPOWERDOWN_register.address, TPOWERDOWN_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ uint32_t TMCStepper::TSTEP() { return read(TSTEP_t::address); }
 // W: TPWMTHRS
 uint32_t TMCStepper::TPWMTHRS() { return TPWMTHRS_register.sr; }
 void TMCStepper::TPWMTHRS(uint32_t input) {
-  TPWMTHRS_register.sr = input;
+  TPWMTHRS_register = input;
   write(TPWMTHRS_register.address, TPWMTHRS_register.sr);
 }
 
@@ -140,14 +140,14 @@ uint16_t TMCStepper::MSCNT() {
 uint32_t TMCStepper::MSCURACT() { return read(MSCURACT_t::address); }
 int16_t TMCStepper::cur_a() {
   MSCURACT_t r{0};
-  r.sr = MSCURACT();
+  r = MSCURACT();
   int16_t value = r.cur_a;
   if (value > 255) value -= 512;
   return value;
 }
 int16_t TMCStepper::cur_b() {
   MSCURACT_t r{0};
-  r.sr = MSCURACT();
+  r = MSCURACT();
   int16_t value = r.cur_b;
   if (value > 255) value -= 512;
   return value;
