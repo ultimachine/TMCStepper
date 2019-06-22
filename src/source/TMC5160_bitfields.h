@@ -5,6 +5,9 @@ namespace TMC5160_n {
 
 struct GCONF_t {
   constexpr static uint8_t address = 0x00;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 18;
     struct {
@@ -42,6 +45,9 @@ using TMC5130_n::SLAVECONF_t;
 
 struct IOIN_t {
   constexpr static uint8_t address = 0x04;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -72,6 +78,9 @@ struct OTP_READ_t {
 
 struct FACTORY_CONF_t {
   constexpr static uint8_t address = 0x07;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint16_t sr;
     struct {
@@ -116,6 +125,9 @@ using TMC5130_n::ENC_LATCH_t;
 
 struct ENC_DEVIATION_t {
   constexpr static uint8_t address = 0x3D;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 20;
 };
 

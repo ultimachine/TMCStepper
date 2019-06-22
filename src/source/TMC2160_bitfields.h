@@ -5,6 +5,9 @@ namespace TMC2160_n {
 
   struct GCONF_t {
     constexpr static uint8_t address = 0x00;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr : 18;
       struct {
@@ -33,6 +36,9 @@ namespace TMC2160_n {
 
   struct IOIN_t {
     constexpr static uint8_t address = 0x04;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -51,6 +57,9 @@ namespace TMC2160_n {
 
   struct OTP_READ {
     constexpr static uint8_t address = 0x07;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint8_t sr;
       struct {
@@ -64,6 +73,9 @@ namespace TMC2160_n {
 
   struct SHORT_CONF_t {
     constexpr static uint8_t address = 0x09;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr : 19;
       struct {
@@ -79,6 +91,9 @@ namespace TMC2160_n {
 
   struct DRV_CONF_t {
     constexpr static uint8_t address = 0x0A;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr : 22;
       struct {
@@ -95,11 +110,17 @@ namespace TMC2160_n {
 
   struct GLOBAL_SCALER_t {
     constexpr static uint8_t address = 0x0B;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     uint8_t sr;
   };
 
   struct OFFSET_READ_t {
     constexpr static uint8_t address = 0x0C;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint16_t sr;
       struct {
@@ -135,6 +156,9 @@ namespace TMC2160_n {
 
   struct DRV_STATUS_t {
     constexpr static uint8_t address = 0x6F;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -160,6 +184,9 @@ namespace TMC2160_n {
 
   struct PWMCONF_t {
     constexpr static uint8_t address = 0x70;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -178,6 +205,9 @@ namespace TMC2160_n {
 
   struct PWM_SCALE_t {
     constexpr static uint8_t address = 0x71;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr : 25;
       struct {
@@ -190,6 +220,9 @@ namespace TMC2160_n {
 
   struct PWM_AUTO_t {
     constexpr static uint8_t address = 0x72;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr : 24;
       struct {

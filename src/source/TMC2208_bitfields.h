@@ -4,6 +4,9 @@
 namespace TMC2208_n {
   struct GCONF_t {
     constexpr static uint8_t address = 0x00;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint16_t sr : 10;
       struct {
@@ -29,6 +32,9 @@ namespace TMC2208_n {
 
   struct IOIN_t {
     constexpr static uint8_t address = 0x06;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -56,6 +62,9 @@ namespace TMC2208_n {
 
   struct VACTUAL_t {
     constexpr static uint8_t address = 0x22;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     uint32_t sr;
   };
 
@@ -64,6 +73,9 @@ namespace TMC2208_n {
 
   struct CHOPCONF_t {
     constexpr static uint8_t address = 0x6C;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -85,6 +97,9 @@ namespace TMC2208_n {
 
   struct DRV_STATUS_t {
     constexpr static uint8_t address = 0x6F;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -119,6 +134,9 @@ namespace TMC2208_n {
 namespace TMC2224_n {
   struct IOIN_t {
     constexpr static uint8_t address = 0x06;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {

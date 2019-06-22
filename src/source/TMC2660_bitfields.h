@@ -5,6 +5,9 @@ namespace TMC2660_n {
 
 struct DRVCTRL_1_t {
   constexpr static uint8_t address = 0b00;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -18,6 +21,9 @@ struct DRVCTRL_1_t {
 
 struct DRVCTRL_0_t {
   constexpr static uint8_t address = 0b00;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -31,6 +37,9 @@ struct DRVCTRL_0_t {
 
 struct CHOPCONF_t {
   constexpr static uint8_t address = 0b100;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -47,6 +56,9 @@ struct CHOPCONF_t {
 
 struct SMARTEN_t {
   constexpr static uint8_t address = 0b101;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -64,6 +76,9 @@ struct SMARTEN_t {
 
 struct SGCSCONF_t {
   constexpr static uint8_t address = 0b110;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -78,6 +93,9 @@ struct SGCSCONF_t {
 
 struct DRVCONF_t {
   constexpr static uint8_t address = 0b111;
+void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -96,6 +114,9 @@ struct DRVCONF_t {
 };
 
 struct READ_RDSEL00_t {
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -114,6 +135,9 @@ struct READ_RDSEL00_t {
 };
 
 struct READ_RDSEL01_t {
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -132,6 +156,9 @@ struct READ_RDSEL01_t {
 };
 
 struct READ_RDSEL10_t {
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {

@@ -5,6 +5,9 @@ namespace TMC2130_n {
 
 struct GCONF_t {
   constexpr static uint8_t address = 0x00;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 18;
     struct {
@@ -31,6 +34,9 @@ struct GCONF_t {
 
 struct IHOLD_IRUN_t {
   constexpr static uint8_t address = 0x10;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 20;
     struct {
@@ -45,6 +51,9 @@ struct IHOLD_IRUN_t {
 
 struct GSTAT_t {
   constexpr static uint8_t address = 0x01;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint8_t sr : 3;
     struct {
@@ -57,6 +66,9 @@ struct GSTAT_t {
 
 struct IOIN_t {
   constexpr static uint8_t address = 0x04;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -75,6 +87,9 @@ struct IOIN_t {
 
 struct TPOWERDOWN_t {
   constexpr static uint8_t address = 0x11;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint8_t sr : 8;
 };
 
@@ -84,21 +99,33 @@ struct TSTEP_t {
 
 struct TPWMTHRS_t {
   constexpr static uint8_t address = 0x13;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 20;
 };
 
 struct TCOOLTHRS_t {
   constexpr static uint8_t address = 0x14;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 20;
 };
 
 struct THIGH_t {
   constexpr static uint8_t address = 0x15;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 20;
 };
 
 struct XDIRECT_t {
   constexpr static uint8_t address = 0x2D;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 25;
     struct {
@@ -111,6 +138,9 @@ struct XDIRECT_t {
 
 struct VDCMIN_t {
   constexpr static uint8_t address = 0x33;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 23;
 };
 
@@ -120,46 +150,73 @@ struct IOINT_t {
 
 struct MSLUT0_t {
   constexpr static uint8_t address = 0x60;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT1_t {
   constexpr static uint8_t address = 0x61;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT2_t {
   constexpr static uint8_t address = 0x62;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT3_t {
   constexpr static uint8_t address = 0x63;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT4_t {
   constexpr static uint8_t address = 0x64;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT5_t {
   constexpr static uint8_t address = 0x65;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT6_t {
   constexpr static uint8_t address = 0x66;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUT7_t {
   constexpr static uint8_t address = 0x67;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
 struct MSLUTSEL_t {
   constexpr static uint8_t address = 0x68;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -176,6 +233,9 @@ struct MSLUTSEL_t {
 
 struct MSLUTSTART_t {
   constexpr static uint8_t address = 0x69;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 24;
     struct {
@@ -192,6 +252,9 @@ struct MSCNT_t {
 
 struct MSCURACT_t {
   constexpr static uint8_t address = 0x6B;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 25;
     struct {
@@ -204,6 +267,9 @@ struct MSCURACT_t {
 
 struct CHOPCONF_t {
   constexpr static uint8_t address = 0x6C;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 32;
     struct {
@@ -235,6 +301,9 @@ struct CHOPCONF_t {
 
 struct COOLCONF_t {
   constexpr static uint8_t address = 0x6D;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 25;
     struct {
@@ -255,6 +324,9 @@ struct COOLCONF_t {
 
 struct DCCTRL_t {
 	constexpr static uint8_t address = 0x6E;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
 	union {
 		uint32_t sr : 24;
 		struct {
@@ -267,6 +339,9 @@ struct DCCTRL_t {
 
 struct DRV_STATUS_t {
   constexpr static uint8_t address = 0x6F;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -289,6 +364,9 @@ struct DRV_STATUS_t {
 
 struct PWMCONF_t {
   constexpr static uint8_t address = 0x70;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 22;
     struct {
@@ -308,6 +386,9 @@ struct PWM_SCALE_t {
 
 struct ENCM_CTRL_t {
   constexpr static uint8_t address = 0x72;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint8_t sr : 2;
     struct {

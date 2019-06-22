@@ -5,6 +5,9 @@ namespace TMC5130_n {
 
 struct GCONF_t {
   constexpr static uint8_t address = 0x00;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr : 18;
     struct {
@@ -44,6 +47,9 @@ struct IFCNT_t {
 
 struct SLAVECONF_t {
   constexpr static uint8_t address = 0x03;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint16_t sr : 12;
     struct {
@@ -55,6 +61,9 @@ struct SLAVECONF_t {
 
 struct IOIN_t {
   constexpr static uint8_t address = 0x04;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint32_t sr;
     struct {
@@ -74,11 +83,17 @@ struct IOIN_t {
 
 struct OUTPUT_t {
   constexpr static uint8_t address = 0x04;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   bool sr : 1;
 };
 
 struct X_COMPARE_t {
   constexpr static uint8_t address = 0x05;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
@@ -91,11 +106,17 @@ using TMC2130_n::THIGH_t;
 
 struct RAMPMODE_t {
   constexpr static uint8_t address = 0x20;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint8_t sr : 2;
 };
 
 struct XACTUAL_t {
   constexpr static uint8_t address = 0x21;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr;
 };
 
@@ -105,46 +126,73 @@ struct VACTUAL_t {
 
 struct VSTART_t {
   constexpr static uint8_t address = 0x23;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 18;
 };
 
 struct A1_t {
   constexpr static uint8_t address = 0x24;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint16_t sr : 16;
 };
 
 struct V1_t {
   constexpr static uint8_t address = 0x25;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 20;
 };
 
 struct AMAX_t {
   constexpr static uint8_t address = 0x26;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint16_t sr : 16;
 };
 
 struct VMAX_t {
   constexpr static uint8_t address = 0x27;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 23;
 };
 
 struct DMAX_t {
   constexpr static uint8_t address = 0x28;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint16_t sr : 16;
 };
 
 struct D1_t {
   constexpr static uint8_t address = 0x2A;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint16_t sr : 16;
 };
 
 struct VSTOP_t {
   constexpr static uint8_t address = 0x2B;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint32_t sr : 18;
 };
 
 struct TZEROWAIT_t {
   constexpr static uint8_t address = 0x2C;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   uint16_t sr : 16;
 };
 
@@ -156,6 +204,9 @@ using TMC2130_n::VDCMIN_t;
 
 struct SW_MODE_t {
   constexpr static uint8_t address = 0x34;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint16_t sr : 12;
     struct {
@@ -177,6 +228,9 @@ struct SW_MODE_t {
 
 struct RAMP_STAT_t {
   constexpr static uint8_t address = 0x35;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint16_t sr : 14;
     struct {
@@ -204,6 +258,9 @@ struct XLATCH_t {
 
 struct ENCMODE_t {
   constexpr static uint8_t address = 0x38;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   union {
     uint16_t sr : 11;
     struct {
@@ -228,6 +285,9 @@ struct X_ENC_t {
 
 struct ENC_CONST_t {
   constexpr static uint8_t address = 0x3A;
+  void operator =(uint32_t input) { sr = input; }
+  uint32_t operator ()() { return sr; }
+
   int32_t sr;
 };
 

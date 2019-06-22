@@ -12,6 +12,9 @@ namespace TMC2209_n {
 
   struct IOIN_t {
     constexpr static uint8_t address = 0x06;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint32_t sr;
       struct {
@@ -48,16 +51,25 @@ namespace TMC2209_n {
 
   struct SGTHRS_t {
     constexpr static uint8_t address = 0x40;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     uint8_t sr : 8;
   };
 
   struct SG_RESULT_t {
     constexpr static uint8_t address = 0x41;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     uint16_t sr : 10;
   };
 
   struct COOLCONF_t {
     constexpr static uint8_t address = 0x42;
+    void operator =(uint32_t input) { sr = input; }
+    uint32_t operator ()() { return sr; }
+
     union {
       uint16_t sr;
       struct {
