@@ -419,9 +419,12 @@ class TMC2160Stepper : public TMC2130Stepper {
 		uint16_t pwm_scale_auto();
 
 	protected:
-		using TMC2130Stepper::ENCM_CTRL;
-		using TMC2130Stepper::pwm_ampl;
-		using TMC2130Stepper::pwm_symmetric;
+		uint8_t ENCM_CTRL() = delete;
+		void ENCM_CTRL(uint8_t input) = delete;
+		void pwm_ampl(uint8_t B) = delete;
+		uint8_t pwm_ampl() = delete;
+		void pwm_symmetric(bool B) = delete;
+		bool pwm_symmetric() = delete;
 
 		TMC2160_n::SHORT_CONF_t		SHORT_CONF_register{{.sr=0}};
 		TMC2160_n::DRV_CONF_t 		DRV_CONF_register{{.sr=0}};
@@ -645,27 +648,45 @@ class TMC5130Stepper : public TMC2160Stepper {
 		static constexpr float default_RS = 0.15;
 
 	protected:
-		using TMC2160Stepper::SHORT_CONF;
-		using TMC2160Stepper::s2vs_level;
-		using TMC2160Stepper::s2g_level;
-		using TMC2160Stepper::shortfilter;
-		using TMC2160Stepper::shortdelay;
-		using TMC2160Stepper::DRV_CONF;
-		using TMC2160Stepper::bbmtime;
-		using TMC2160Stepper::bbmclks;
-		using TMC2160Stepper::otselect;
-		using TMC2160Stepper::drvstrength;
-		using TMC2160Stepper::filt_isense;
-		using TMC2160Stepper::GLOBAL_SCALER;
-		using TMC2160Stepper::OFFSET_READ;
+		void SHORT_CONF(uint32_t) = delete;
+		void s2vs_level(uint8_t) = delete;
+		void s2g_level(uint8_t) = delete;
+		void shortfilter(uint8_t) = delete;
+		void shortdelay(bool) = delete;
+		uint32_t SHORT_CONF() = delete;
+		uint8_t s2vs_level() = delete;
+		uint8_t s2g_level() = delete;
+		uint8_t shortfilter() = delete;
+		bool shortdelay() = delete;
 
-		using TMC2160Stepper::pwm_ofs;
-		using TMC2160Stepper::pwm_autograd;
-		using TMC2160Stepper::pwm_reg;
-		using TMC2160Stepper::pwm_lim;
+		void DRV_CONF(uint32_t) = delete;
+		void bbmtime(uint8_t) = delete;
+		void bbmclks(uint8_t) = delete;
+		void otselect(uint8_t) = delete;
+		void drvstrength(uint8_t) = delete;
+		void filt_isense(uint8_t) = delete;
+		uint32_t DRV_CONF() = delete;
+		uint8_t bbmtime() = delete;
+		uint8_t bbmclks() = delete;
+		uint8_t otselect() = delete;
+		uint8_t drvstrength() = delete;
+		uint8_t filt_isense() = delete;
 
-		using TMC2160Stepper::pwm_scale_sum;
-		using TMC2160Stepper::pwm_scale_auto;
+		void GLOBAL_SCALER(uint8_t) = delete;
+		uint8_t GLOBAL_SCALER() = delete;
+		uint16_t OFFSET_READ() = delete;
+
+		void pwm_ofs(uint8_t B) = delete;
+		void pwm_autograd(bool B) = delete;
+		void pwm_reg(uint8_t B) = delete;
+		void pwm_lim(uint8_t B) = delete;
+		uint8_t pwm_ofs() = delete;
+		bool pwm_autograd() = delete;
+		uint8_t pwm_reg() = delete;
+		uint8_t pwm_lim() = delete;
+
+		uint8_t pwm_scale_sum() = delete;
+		uint16_t pwm_scale_auto() = delete;
 };
 
 class TMC5160Stepper : public TMC5130Stepper {
@@ -787,14 +808,19 @@ class TMC5160Stepper : public TMC5130Stepper {
 		using TMC2160Stepper::pwm_scale_auto;
 
 	protected:
-		using TMC5130Stepper::I_scale_analog;
-		using TMC5130Stepper::internal_Rsense;
-		using TMC5130Stepper::enc_commutation;
-		using TMC5130Stepper::drv_enn_cfg6;
-		using TMC5130Stepper::enc_n_dco;
-		using TMC5130Stepper::ENCM_CTRL;
+		void I_scale_analog(bool) = delete;
+		void internal_Rsense(bool) = delete;
+		void enc_commutation(bool) = delete;
+		bool I_scale_analog() = delete;
+		bool internal_Rsense() = delete;
+		bool enc_commutation() = delete;
+		bool drv_enn_cfg6() = delete;
+		bool enc_n_dco() = delete;
+		uint8_t ENCM_CTRL() = delete;
+		void ENCM_CTRL(uint8_t input) = delete;
 		using TMC5130Stepper::vsense;
-		using TMC5130Stepper::rndtf;
+		void rndtf(bool) = delete;
+		bool rndtf() = delete;
 
 		TMC5160_n::GCONF_t GCONF_register{{.sr=0}};
 		TMC5160_n::ENC_DEVIATION_t ENC_DEVIATION_register{.sr=0};
