@@ -5,27 +5,24 @@ using namespace TMC2130_n;
 uint32_t TMC2130Stepper::spi_speed = 16000000/8;
 
 TMC2130Stepper::TMC2130Stepper(uint16_t pinCS, float RS) :
-  TMCStepper(RS),
-  _pinCS(pinCS)
-  { defaults(); }
-
-TMC2130Stepper::TMC2130Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK) :
-  TMCStepper(default_RS),
-  _pinCS(pinCS)
+  TMCStepper(RS)
   {
-    SW_SPIClass *SW_SPI_Obj = new SW_SPIClass(pinMOSI, pinMISO, pinSCK);
-    TMC_SW_SPI = SW_SPI_Obj;
+    cs_pin = pinCS;
     defaults();
   }
 
 TMC2130Stepper::TMC2130Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK) :
-  TMCStepper(RS),
-  _pinCS(pinCS)
+  TMC2130Stepper(RS)
   {
-    SW_SPIClass *SW_SPI_Obj = new SW_SPIClass(pinMOSI, pinMISO, pinSCK);
-    TMC_SW_SPI = SW_SPI_Obj;
-    defaults();
+    mosi_pin = pinMOSI;
+    miso_pin = pinMISO;
+    sck_pin = pinSCK;
+    use_sw_spi = true;
   }
+
+TMC2130Stepper::TMC2130Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK) :
+  TMC2130Stepper(pinCS, default_RS, pinMOSI, pinMISO, pinSCK)
+  {}
 
 void TMC2130Stepper::defaults() {
   //MSLUT0_register = ???;
@@ -40,83 +37,12 @@ void TMC2130Stepper::defaults() {
   PWMCONF_register = 0x00050480;
 }
 
-void TMC2130Stepper::setSPISpeed(uint32_t speed) {
-  spi_speed = speed;
-}
-
-void TMC2130Stepper::switchCSpin(bool state) {
-  digitalWrite(_pinCS, state);
-}
-
-uint32_t TMC2130Stepper::read(uint8_t addressByte) {
-  uint32_t out = 0UL;
-  if (TMC_SW_SPI != NULL) {
-    switchCSpin(LOW);
-    TMC_SW_SPI->transfer(addressByte & 0xFF);
-    TMC_SW_SPI->transfer16(0x0000); // Clear SPI
-    TMC_SW_SPI->transfer16(0x0000);
-
-    switchCSpin(HIGH);
-    switchCSpin(LOW);
-
-    status_response = TMC_SW_SPI->transfer(addressByte & 0xFF); // Send the address byte again
-    out  = TMC_SW_SPI->transfer(0x00);
-    out <<= 8;
-    out |= TMC_SW_SPI->transfer(0x00);
-    out <<= 8;
-    out |= TMC_SW_SPI->transfer(0x00);
-    out <<= 8;
-    out |= TMC_SW_SPI->transfer(0x00);
-
-  } else {
-    SPI.beginTransaction(SPISettings(spi_speed, MSBFIRST, SPI_MODE3));
-    switchCSpin(LOW);
-    SPI.transfer(addressByte & 0xFF);
-    SPI.transfer16(0x0000); // Clear SPI
-    SPI.transfer16(0x0000);
-
-    switchCSpin(HIGH);
-    switchCSpin(LOW);
-
-    status_response = SPI.transfer(addressByte & 0xFF); // Send the address byte again
-    out  = SPI.transfer(0x00);
-    out <<= 8;
-    out |= SPI.transfer(0x00);
-    out <<= 8;
-    out |= SPI.transfer(0x00);
-    out <<= 8;
-    out |= SPI.transfer(0x00);
-
-    SPI.endTransaction();
-  }
-  switchCSpin(HIGH);
-  return out;
-}
-
-void TMC2130Stepper::write(uint8_t addressByte, uint32_t config) {
-  addressByte |= TMC_WRITE;
-  if (TMC_SW_SPI != NULL) {
-    switchCSpin(LOW);
-    status_response = TMC_SW_SPI->transfer(addressByte & 0xFF);
-    TMC_SW_SPI->transfer16((config>>16) & 0xFFFF);
-    TMC_SW_SPI->transfer16(config & 0xFFFF);
-  } else {
-    SPI.beginTransaction(SPISettings(spi_speed, MSBFIRST, SPI_MODE3));
-    switchCSpin(LOW);
-    status_response = SPI.transfer(addressByte & 0xFF);
-    SPI.transfer16((config>>16) & 0xFFFF);
-    SPI.transfer16(config & 0xFFFF);
-    SPI.endTransaction();
-  }
-  switchCSpin(HIGH);
-}
-
 void TMC2130Stepper::begin() {
   //set pins
-  pinMode(_pinCS, OUTPUT);
+  pinMode(cs_pin, OUTPUT);
   switchCSpin(HIGH);
 
-  if (TMC_SW_SPI != NULL) TMC_SW_SPI->init();
+  if (use_sw_spi) init();
 
   GCONF(GCONF_register.sr);
   CHOPCONF(CHOPCONF_register.sr);

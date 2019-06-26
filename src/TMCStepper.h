@@ -34,8 +34,16 @@
 
 #define TMCSTEPPER_VERSION 0x000405 // v0.4.5
 
-template<class T>
-class TMCStepper {
+struct TMC_constants {
+		static constexpr uint8_t TMC_READ = 0x00,
+														TMC_WRITE = 0x80;
+};
+
+#include "source/TMC_SPI.h"
+#include "source/TMC_UART.h"
+
+template<class T, class SPI_UART>
+class TMCStepper : public SPI_UART {
 	public:
 		uint16_t cs2rms(uint8_t CS);
 		void rms_current(uint16_t mA);
@@ -97,11 +105,6 @@ class TMCStepper {
 		TMC2130_n::TPOWERDOWN_t TPOWERDOWN_register{.sr=0};		// 8b
 		TMC2130_n::TPWMTHRS_t TPWMTHRS_register{.sr=0};			// 32b
 
-		static constexpr uint8_t TMC_READ = 0x00,
-														TMC_WRITE = 0x80;
-
-		virtual void write(uint8_t, uint32_t) = 0;
-		virtual uint32_t read(uint8_t) = 0;
 		void vsense(bool B) { this->self().vsense(B); }
 		bool vsense(void) { return this->self().vsense(); }
 		uint32_t DRV_STATUS() { return this->self().DRV_STATUS(); }
@@ -121,15 +124,13 @@ class TMCStepper {
 		const T& self() const { return *static_cast<const T*>(this); }
 };
 
-class TMC2130Stepper : public TMCStepper<TMC2130Stepper> {
+class TMC2130Stepper : public TMCStepper<TMC2130Stepper, TMC_SPI> {
 	public:
 		TMC2130Stepper(uint16_t pinCS, float RS = default_RS);
 		TMC2130Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
 		TMC2130Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
 		void begin();
 		void defaults();
-		void setSPISpeed(uint32_t speed);
-		void switchCSpin(bool state);
 		bool isEnabled();
 		void push();
 
@@ -313,12 +314,7 @@ class TMC2130Stepper : public TMCStepper<TMC2130Stepper> {
 
 		// Function aliases
 
-		uint8_t status_response;
-
 	protected:
-		void write(uint8_t addressByte, uint32_t config) final override;
-		uint32_t read(uint8_t addressByte) final override;
-
 		TMC2130_n::GCONF_t		GCONF_register{{.sr=0}};	// 32b
 		TMC2130_n::TCOOLTHRS_t	TCOOLTHRS_register{ .sr=0};	// 32b
 		TMC2130_n::THIGH_t		THIGH_register{ .sr=0};	// 32b
@@ -330,9 +326,6 @@ class TMC2130Stepper : public TMCStepper<TMC2130Stepper> {
 		TMC2130_n::PWMCONF_t	PWMCONF_register{{.sr=0}};	// 32b
 		TMC2130_n::ENCM_CTRL_t	ENCM_CTRL_register{{.sr=0}};  //  8b
 
-		static uint32_t spi_speed; // Default 2MHz
-		const uint16_t _pinCS;
-		SW_SPIClass * TMC_SW_SPI = NULL;
 		static constexpr float default_RS = 0.11;
 };
 
@@ -841,15 +834,11 @@ class TMC5161Stepper : public TMC5160Stepper {
 			TMC5160Stepper(pinCS, RS, pinMOSI, pinMISO, pinSCK) {}
 };
 
-class TMC2208Stepper : public TMCStepper<TMC2208Stepper> {
+class TMC2208Stepper : public TMCStepper<TMC2208Stepper, TMC_UART> {
 	public:
-		TMC2208Stepper(Stream * SerialPort, float RS, bool has_rx=true) :
-			TMC2208Stepper(SerialPort, RS, TMC2208_SLAVE_ADDR)
-			{}
+		TMC2208Stepper(Stream * SerialPort, float RS);
 		#if SW_CAPABLE_PLATFORM
-			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, bool has_rx=true) :
-				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, TMC2208_SLAVE_ADDR, has_rx)
-				{}
+			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS);
 		#endif
 		void defaults();
 		void push();
@@ -992,9 +981,7 @@ class TMC2208Stepper : public TMCStepper<TMC2208Stepper> {
 
 		bool isWriteOnly() {return write_only;}
 
-		uint16_t bytesWritten = 0;
 		float Rsense = 0.11;
-		bool CRCerror = false;
 	protected:
 		TMC2208_n::GCONF_t 			GCONF_register{{.sr=0}};
 		TMC2208_n::SLAVECONF_t 		SLAVECONF_register{{.sr=0}};
@@ -1002,40 +989,17 @@ class TMC2208Stepper : public TMCStepper<TMC2208Stepper> {
 		TMC2208_n::VACTUAL_t 		VACTUAL_register{.sr=0};
 		TMC2208_n::CHOPCONF_t 		CHOPCONF_register{{.sr=0}};
 		TMC2208_n::PWMCONF_t 		PWMCONF_register{{.sr=0}};
-
-		TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr);
-		#if SW_CAPABLE_PLATFORM
-			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr, bool has_rx);
-		#endif
-
-		Stream * HWSerial = NULL;
-		#if SW_CAPABLE_PLATFORM
-			SoftwareSerial * SWSerial = NULL;
-		#endif
-
-		void write(uint8_t, uint32_t);
-		uint32_t read(uint8_t);
-		const uint8_t slave_address;
-		uint8_t calcCRC(uint8_t datagram[], uint8_t len);
-		static constexpr uint8_t  TMC2208_SYNC = 0x05,
-															TMC2208_SLAVE_ADDR = 0x00;
-		const bool write_only;
-		static constexpr uint8_t replyDelay = 2;
-		static constexpr uint8_t abort_window = 5;
-		static constexpr uint8_t max_retries = 2;
-
-		template<typename SERIAL_TYPE>
-		friend uint64_t _sendDatagram(SERIAL_TYPE &, uint8_t [], const uint8_t, uint16_t);
 };
 
 class TMC2209Stepper : public TMC2208Stepper {
 	public:
-		TMC2209Stepper(Stream * SerialPort, float RS, uint8_t addr) :
-			TMC2208Stepper(SerialPort, RS, addr) {}
-
+		TMC2209Stepper(Stream * SerialPort, float RS, uint8_t addr = TMC_SLAVE_ADDR) :
+			TMC2208Stepper(SerialPort, RS)
+			{ slave_address = addr; }
 		#if SW_CAPABLE_PLATFORM
-			TMC2209Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr) :
-				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, addr, SW_RX_pin != SW_TX_pin) {}
+			TMC2209Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr = TMC_SLAVE_ADDR) :
+				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS)
+				{ slave_address = addr; }
 		#endif
 		void push();
 
@@ -1096,14 +1060,13 @@ class TMC2224Stepper : public TMC2208Stepper {
 		uint8_t version();
 };
 
-class TMC2660Stepper {
+class TMC2660Stepper : protected TMC_SPI {
 	public:
 		TMC2660Stepper(uint16_t pinCS, float RS = default_RS);
 		TMC2660Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
 		TMC2660Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
 		void write(uint8_t addressByte, uint32_t config);
 		uint32_t read();
-		void switchCSpin(bool state);
 		void begin();
 		bool isEnabled();
 		uint8_t test_connection();
@@ -1249,14 +1212,11 @@ class TMC2660Stepper {
 		TMC2660_n::READ_RDSEL01_t 	READ_RDSEL01_register{{.sr=0}};
 		TMC2660_n::READ_RDSEL10_t 	READ_RDSEL10_register{{.sr=0}};
 
-		const uint16_t _pinCS;
 		const float Rsense;
 		static constexpr float default_RS = 0.1;
 		float holdMultiplier = 0.5;
-		uint32_t spi_speed = 16000000/8; // Default 2MHz
 		uint8_t _savedToff = 0;
-		SW_SPIClass * TMC_SW_SPI = NULL;
 };
 
-template class TMCStepper<TMC2130Stepper>;
-template class TMCStepper<TMC2208Stepper>;
+template class TMCStepper<TMC2130Stepper, TMC_SPI>;
+template class TMCStepper<TMC2208Stepper, TMC_UART>;

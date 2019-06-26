@@ -13,10 +13,10 @@ TMC2160Stepper::TMC2160Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMIS
 
 void TMC2160Stepper::begin() {
   //set pins
-  pinMode(_pinCS, OUTPUT);
+  pinMode(cs_pin, OUTPUT);
   switchCSpin(HIGH);
 
-  if (TMC_SW_SPI != NULL) TMC_SW_SPI->init();
+  if (use_sw_spi) init();
 
   GCONF(GCONF_register.sr);
   CHOPCONF(CHOPCONF_register.sr);

@@ -18,13 +18,13 @@ using namespace TMC2130_n;
   CS = 26
 */
 
-template<class T>
-uint16_t TMCStepper<T>::cs2rms(uint8_t CS) {
+template<class T, class SPI_UART>
+uint16_t TMCStepper<T, SPI_UART>::cs2rms(uint8_t CS) {
   return (float)(CS+1)/32.0 * (vsense() ? 0.180 : 0.325)/(Rsense+0.02) / 1.41421 * 1000;
 }
 
-template<class T>
-void TMCStepper<T>::rms_current(uint16_t mA) {
+template<class T, class SPI_UART>
+void TMCStepper<T, SPI_UART>::rms_current(uint16_t mA) {
   uint8_t CS = 32.0*1.41421*mA/1000.0*(Rsense+0.02)/0.325 - 1;
   // If Current Scale is too low, turn on high sensitivity R_sense and calculate again
   if (CS < 16) {
@@ -38,19 +38,19 @@ void TMCStepper<T>::rms_current(uint16_t mA) {
   //val_mA = mA;
 }
 
-template<class T>
-void TMCStepper<T>::rms_current(uint16_t mA, float mult) {
+template<class T, class SPI_UART>
+void TMCStepper<T, SPI_UART>::rms_current(uint16_t mA, float mult) {
   holdMultiplier = mult;
   rms_current(mA);
 }
 
-template<class T>
-uint16_t TMCStepper<T>::rms_current() {
+template<class T, class SPI_UART>
+uint16_t TMCStepper<T, SPI_UART>::rms_current() {
   return cs2rms(irun());
 }
 
-template<class T>
-uint8_t TMCStepper<T>::test_connection() {
+template<class T, class SPI_UART>
+uint8_t TMCStepper<T, SPI_UART>::test_connection() {
   uint32_t drv_status = DRV_STATUS();
   switch (drv_status) {
       case 0xFFFFFFFF: return 1;
@@ -59,14 +59,14 @@ uint8_t TMCStepper<T>::test_connection() {
   }
 }
 
-template<class T> void TMCStepper<T>::hysteresis_end(int8_t value) { hend(value+3); }
-template<class T> int8_t TMCStepper<T>::hysteresis_end() { return hend()-3; };
+template<class T, class SPI_UART> void TMCStepper<T, SPI_UART>::hysteresis_end(int8_t value) { hend(value+3); }
+template<class T, class SPI_UART> int8_t TMCStepper<T, SPI_UART>::hysteresis_end() { return hend()-3; };
 
-template<class T> void TMCStepper<T>::hysteresis_start(uint8_t value) { hstrt(value-1); }
-template<class T> uint8_t TMCStepper<T>::hysteresis_start() { return hstrt()+1; }
+template<class T, class SPI_UART> void TMCStepper<T, SPI_UART>::hysteresis_start(uint8_t value) { hstrt(value-1); }
+template<class T, class SPI_UART> uint8_t TMCStepper<T, SPI_UART>::hysteresis_start() { return hstrt()+1; }
 
-template<class T>
-void TMCStepper<T>::microsteps(uint16_t ms) {
+template<class T, class SPI_UART>
+void TMCStepper<T, SPI_UART>::microsteps(uint16_t ms) {
   switch(ms) {
     case 256: mres(0); break;
     case 128: mres(1); break;
@@ -81,8 +81,8 @@ void TMCStepper<T>::microsteps(uint16_t ms) {
   }
 }
 
-template<class T>
-uint16_t TMCStepper<T>::microsteps() {
+template<class T, class SPI_UART>
+uint16_t TMCStepper<T, SPI_UART>::microsteps() {
   switch(mres()) {
     case 0: return 256;
     case 1: return 128;
@@ -97,8 +97,8 @@ uint16_t TMCStepper<T>::microsteps() {
   return 0;
 }
 
-template<class T>
-void TMCStepper<T>::blank_time(uint8_t value) {
+template<class T, class SPI_UART>
+void TMCStepper<T, SPI_UART>::blank_time(uint8_t value) {
   switch (value) {
     case 16: tbl(0b00); break;
     case 24: tbl(0b01); break;
@@ -107,8 +107,8 @@ void TMCStepper<T>::blank_time(uint8_t value) {
   }
 }
 
-template<class T>
-uint8_t TMCStepper<T>::blank_time() {
+template<class T, class SPI_UART>
+uint8_t TMCStepper<T, SPI_UART>::blank_time() {
   switch (tbl()) {
     case 0b00: return 16;
     case 0b01: return 24;
@@ -120,42 +120,42 @@ uint8_t TMCStepper<T>::blank_time() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // R+C: GSTATD
-template<class T> uint8_t TMCStepper<T>::GSTAT()       { return read(GSTAT_t::address); }
-template<class T> void    TMCStepper<T>::GSTAT(uint8_t){ write(GSTAT_t::address, 0b111); }
-template<class T> bool    TMCStepper<T>::reset()       { GSTAT_t r; r = GSTAT(); return r.reset; }
-template<class T> bool    TMCStepper<T>::drv_err()     { GSTAT_t r; r = GSTAT(); return r.drv_err; }
-template<class T> bool    TMCStepper<T>::uv_cp()       { GSTAT_t r; r = GSTAT(); return r.uv_cp; }
+template<class T, class SPI_UART> uint8_t TMCStepper<T, SPI_UART>::GSTAT()       { return read(GSTAT_t::address); }
+template<class T, class SPI_UART> void    TMCStepper<T, SPI_UART>::GSTAT(uint8_t){ write(GSTAT_t::address, 0b111); }
+template<class T, class SPI_UART> bool    TMCStepper<T, SPI_UART>::reset()       { GSTAT_t r; r = GSTAT(); return r.reset; }
+template<class T, class SPI_UART> bool    TMCStepper<T, SPI_UART>::drv_err()     { GSTAT_t r; r = GSTAT(); return r.drv_err; }
+template<class T, class SPI_UART> bool    TMCStepper<T, SPI_UART>::uv_cp()       { GSTAT_t r; r = GSTAT(); return r.uv_cp; }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TPOWERDOWN
-template<class T> uint8_t TMCStepper<T>::TPOWERDOWN() { return TPOWERDOWN_register.sr; }
-template<class T> void TMCStepper<T>::TPOWERDOWN(uint8_t input) {
+template<class T, class SPI_UART> uint8_t TMCStepper<T, SPI_UART>::TPOWERDOWN() { return TPOWERDOWN_register.sr; }
+template<class T, class SPI_UART> void TMCStepper<T, SPI_UART>::TPOWERDOWN(uint8_t input) {
   TPOWERDOWN_register = input;
   write(TPOWERDOWN_register.address, TPOWERDOWN_register.sr);
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 // R: TSTEP
-template<class T> uint32_t TMCStepper<T>::TSTEP() { return read(TSTEP_t::address); }
+template<class T, class SPI_UART> uint32_t TMCStepper<T, SPI_UART>::TSTEP() { return read(TSTEP_t::address); }
 ///////////////////////////////////////////////////////////////////////////////////////
 // W: TPWMTHRS
-template<class T> uint32_t TMCStepper<T>::TPWMTHRS() { return TPWMTHRS_register.sr; }
-template<class T> void TMCStepper<T>::TPWMTHRS(uint32_t input) {
+template<class T, class SPI_UART> uint32_t TMCStepper<T, SPI_UART>::TPWMTHRS() { return TPWMTHRS_register.sr; }
+template<class T, class SPI_UART> void TMCStepper<T, SPI_UART>::TPWMTHRS(uint32_t input) {
   TPWMTHRS_register = input;
   write(TPWMTHRS_register.address, TPWMTHRS_register.sr);
 }
 
-template<class T> uint16_t TMCStepper<T>::MSCNT() {
+template<class T, class SPI_UART> uint16_t TMCStepper<T, SPI_UART>::MSCNT() {
   return read(MSCNT_t::address);
 }
 
-template<class T> uint32_t TMCStepper<T>::MSCURACT() { return read(MSCURACT_t::address); }
-template<class T> int16_t TMCStepper<T>::cur_a() {
+template<class T, class SPI_UART> uint32_t TMCStepper<T, SPI_UART>::MSCURACT() { return read(MSCURACT_t::address); }
+template<class T, class SPI_UART> int16_t TMCStepper<T, SPI_UART>::cur_a() {
   MSCURACT_t r{0};
   r = MSCURACT();
   int16_t value = r.cur_a;
   if (value > 255) value -= 512;
   return value;
 }
-template<class T> int16_t TMCStepper<T>::cur_b() {
+template<class T, class SPI_UART> int16_t TMCStepper<T, SPI_UART>::cur_b() {
   MSCURACT_t r{0};
   r = MSCURACT();
   int16_t value = r.cur_b;
