@@ -33,7 +33,7 @@
 //TMC5160Stepper driver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
 
 //TMC2208Stepper driver(&SERIAL_PORT, R_SENSE);                     // Hardware Serial
-//TMC2208Stepper driver(SW_RX, SW_TX, R_SENSE);                     // Software serial
+TMC2208Stepper driver(SW_RX, SW_TX, R_SENSE);                     // Software serial
 //TMC2209Stepper driver(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
 //TMC2209Stepper driver(SW_RX, SW_TX, R_SENSE, DRIVER_ADDRESS);
 
@@ -46,7 +46,7 @@ void setup() {
                                   // Enable one according to your setup
 //SPI.begin();                    // SPI drivers
 //SERIAL_PORT.begin(115200);      // HW UART drivers
-//driver.beginSerial(115200);     // SW UART drivers
+  driver.beginSerial(115200);     // SW UART drivers
 
   driver.begin();                 //  SPI: Init CS pins and possible SW SPI pins
                                   // UART: Init SW UART (if selected) with default 115200 baudrate
