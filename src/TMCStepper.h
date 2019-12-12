@@ -142,7 +142,7 @@ class TMC2130Stepper : public TMCStepper {
 		void begin();
 		void defaults();
 		void setSPISpeed(uint32_t speed);
-		void switchCSpin(bool state);
+		void switchCSpin(bool state) __attribute__((weak));
 		bool isEnabled();
 		void push();
 
@@ -329,8 +329,8 @@ class TMC2130Stepper : public TMCStepper {
 		uint8_t status_response;
 
 	protected:
-		void write(uint8_t addressByte, uint32_t config);
-		uint32_t read(uint8_t addressByte);
+		void write(uint8_t addressByte, uint32_t config) __attribute__((weak));
+		uint32_t read(uint8_t addressByte) __attribute__((weak));
 
 		INIT_REGISTER(GCONF){{.sr=0}};		// 32b
 		INIT_REGISTER(TCOOLTHRS){.sr=0};	// 32b
@@ -989,8 +989,8 @@ class TMC2208Stepper : public TMCStepper {
 
 		SSwitch *sswitch = NULL;
 
-		void write(uint8_t, uint32_t);
-		uint32_t read(uint8_t);
+		void write(uint8_t, uint32_t) __attribute__((weak));
+		uint32_t read(uint8_t) __attribute__((weak));
 		const uint8_t slave_address;
 		uint8_t calcCRC(uint8_t datagram[], uint8_t len);
 		static constexpr uint8_t  TMC2208_SYNC = 0x05,
@@ -1000,7 +1000,7 @@ class TMC2208Stepper : public TMCStepper {
 		static constexpr uint8_t max_retries = 2;
 
 		template<typename SERIAL_TYPE>
-		uint64_t _sendDatagram(SERIAL_TYPE &, uint8_t [], const uint8_t, uint16_t);
+		uint64_t _sendDatagram(SERIAL_TYPE &, uint8_t [], const uint8_t, uint16_t) __attribute__((weak));
 };
 
 class TMC2209Stepper : public TMC2208Stepper {
@@ -1078,9 +1078,9 @@ class TMC2660Stepper {
 		TMC2660Stepper(uint16_t pinCS, float RS = default_RS);
 		TMC2660Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
 		TMC2660Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
-		void write(uint8_t addressByte, uint32_t config);
-		uint32_t read();
-		void switchCSpin(bool state);
+		void write(uint8_t addressByte, uint32_t config) __attribute__((weak));
+		uint32_t read() __attribute__((weak));
+		void switchCSpin(bool state) __attribute__((weak));
 		void begin();
 		bool isEnabled();
 		uint8_t test_connection();
