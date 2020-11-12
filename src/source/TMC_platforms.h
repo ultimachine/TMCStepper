@@ -13,6 +13,9 @@
   #define writeMOSI_L g_APinDescription[mosi_pin].pPort -> PIO_CODR = g_APinDescription[mosi_pin].ulPin
   #define writeSCK_H g_APinDescription[sck_pin].pPort -> PIO_SODR = g_APinDescription[sck_pin].ulPin
   #define writeSCK_L g_APinDescription[sck_pin].pPort -> PIO_CODR = g_APinDescription[sck_pin].ulPin
+  #if defined(__SAMG55J19__)
+    #define PIO_Get pio_get
+  #endif
   #define readMISO PIO_Get( g_APinDescription[miso_pin].pPort, PIO_INPUT, g_APinDescription[miso_pin].ulPin )
 #elif defined(TARGET_LPC1768)
   //typedef volatile LPC_GPIO_TypeDef* fastio_reg;
